@@ -5,6 +5,4 @@ export interface Persona {
     email: string;
     telefono: string;
     direccion: string;
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
 }

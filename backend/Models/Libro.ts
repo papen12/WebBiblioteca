@@ -7,6 +7,4 @@ export interface Libro{
     genero:string
     editorial:string
     fechaPublicacion:Date
-    fechaCreacion:Date
-    fechaActualizacion:Date
 }

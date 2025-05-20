@@ -3,7 +3,8 @@ export interface Cliente{
     idPersona:number
     usuario :string
     contrasena:string
-    genero:string 
+    genero:string
+    ciCliente : number
     fechaCreacion:Date
     fechaActualizacion:Date
 }

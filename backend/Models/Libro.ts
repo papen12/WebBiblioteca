@@ -1,5 +1,5 @@
 export interface Libro{
-    id:number
+    idLibro:number
     isbn:String
     titulo:string
     portada:string

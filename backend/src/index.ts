@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import router from '../Routes/PersonaRoutes'; 
+import personaRouter from '../Routes/PersonaRoutes'; 
 dotenv.config();
 
 
@@ -15,7 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use('/api/persona', router);
+app.use('/api/persona', personaRouter);
 
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });

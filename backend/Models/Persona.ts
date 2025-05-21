@@ -6,3 +6,5 @@ export interface Persona {
     telefono: string;
     direccion: string;
 }
+
+export type PersonaFunc = Omit<Persona, "id">;

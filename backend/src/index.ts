@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import personaRouter from '../Routes/PersonaRoutes'; 
+import autorRouter from '../Routes/AutorRouter';
 dotenv.config();
 
 
@@ -16,6 +17,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api/persona', personaRouter);
+app.use('/api/autor', autorRouter)
 
 
 app.get('/api', (_req, res) => {

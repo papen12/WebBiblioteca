@@ -6,3 +6,5 @@ export interface Autor{
     biografia : string
     idAutor : number
 }
+
+export type AutorFunc = Omit<Autor, "id">;

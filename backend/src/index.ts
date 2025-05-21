@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/persona', personaRouter);
 
+
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });
 });

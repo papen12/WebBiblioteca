@@ -1,10 +1,7 @@
 export interface Cliente{
-    id:number
+    ci_cliente:string
     idPersona:number
     usuario :string
-    contrasena:string
-    genero:string
-    ciCliente : number
-    fechaCreacion:Date
-    fechaActualizacion:Date
+    password:string
+   
 }

@@ -70,7 +70,6 @@ export class PersonaController {
         .from("persona")
         .update(pUp)
         .eq("id_persona", intId)
-        .single();
 
       if (error) throw error;
       res.status(200).json(data);

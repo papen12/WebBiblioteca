@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { supabase } from '../src/Config/supabase';
 import { Cliente } from '../Models/Cliente';
 import { generateToken } from '../src/utils/jwt';
+import { error } from 'console';
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -49,9 +50,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const perfil = async (req: Request, res: Response): Promise<void> => {
-  const user = (req as any).user;
+  try{
+    const user = (req as any).user;
   res.status(200).json({
     mensaje: 'Ruta protegida',
     cliente: user,
   });
+  }catch(e){
+    res.status(500).json({error:"error en el servidor"})
+  }
+  
 };

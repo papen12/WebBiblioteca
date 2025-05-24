@@ -38,13 +38,6 @@ export class PersonaController {
         }
     }
 
-<<<<<<< HEAD
-    try {
-      const { data, error } = await supabase
-        .from("persona")
-        .update(pUp)
-        .eq("id_persona", intId)
-=======
     static async createPersona(req: Request, res: Response): Promise<void> {
         const np: PersonaFunc = req.body;
         try {
@@ -52,7 +45,6 @@ export class PersonaController {
                 .from("persona")
                 .insert(np)
                 .single();
->>>>>>> 4294fc611e6f9b861720acda7e92663872ba1ce4
 
             if (error) throw error;
             res.status(201).json(data);

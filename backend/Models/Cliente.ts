@@ -1,10 +1,8 @@
-export interface Cliente{
-    id:number
-    idPersona:number
-    usuario :string
-    contrasena:string
-    genero:string
-    ciCliente : number
-    fechaCreacion:Date
-    fechaActualizacion:Date
+export interface Cliente {
+    ci_cliente: string;
+    id_persona: number;
+    usuario: string;
+    contraseña: string;
 }
+
+export type ClienteFunc = Omit<Cliente, 'ci_cliente'>;

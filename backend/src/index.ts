@@ -44,5 +44,5 @@ app.get('/api', (_req, res) => {
 // });
 
 app.listen(5000, '0.0.0.0', () => {
-  console.log("Servidor corriendo en http://0.0.0.0:5000");
+  console.log("Servidor corriendo en http://localhost:5000");
 });

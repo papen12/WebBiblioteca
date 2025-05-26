@@ -1,17 +1,16 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 
 import cors from 'cors';
-import personaRouter from '../Routes/PersonaRoutes';
 import multaRouter from '../Routes/MultaRouter';
 import reservaRouter from '../Routes/ReservaRouter';
-
 import autorRouter from '../Routes/AutorRouter';
 import clienteRouter from '../Routes/ClienteRoutes';
 import personaRouter from '../Routes/PersonaRoutes';
 import authRouter from '../Routes/authRouter';
 import libroRouter from '../Routes/LibroRouter';
+import administradorRouter from '../Routes/AdministradorRouter';
+
 
 
 
@@ -34,7 +33,7 @@ app.use('/api/persona', personaRouter);
 app.use('/api/autor', autorRouter);
 app.use('/api/multa', multaRouter);
 app.use('/api/reserva', reservaRouter);
-app.use("/api/administrador", );
+app.use("/api/administrador", administradorRouter);
 app.use("/api/cliente", clienteRouter);
 app.use('/api/cliente',clienteRouter)
 app.use('/api/autor', autorRouter)

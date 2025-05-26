@@ -5,7 +5,7 @@ export interface Persona {
     email: string;
     telefono: string;
     direccion: string;
-     genero:string
+    genero:string
 }
 
 export type PersonaFunc = Omit<Persona, "id">;

@@ -1,11 +1,18 @@
-import clienteRouter from '../Routes/ClienteRoutes';
-import autorRouter from '../Routes/AutorRouter';
 import dotenv from 'dotenv';
 import express from 'express';
+
 import cors from 'cors';
-import personaRouter from '../Routes/PersonaRoutes'; 
+import multaRouter from '../Routes/MultaRouter';
+import reservaRouter from '../Routes/ReservaRouter';
+import autorRouter from '../Routes/AutorRouter';
+import clienteRouter from '../Routes/ClienteRoutes';
+import personaRouter from '../Routes/PersonaRoutes';
 import authRouter from '../Routes/authRouter';
 import libroRouter from '../Routes/LibroRouter';
+import administradorRouter from '../Routes/AdministradorRouter';
+
+
+
 
 
 dotenv.config();
@@ -23,21 +30,26 @@ app.use(express.json());
 
 
 app.use('/api/persona', personaRouter);
+app.use('/api/autor', autorRouter);
+app.use('/api/multa', multaRouter);
+app.use('/api/reserva', reservaRouter);
+app.use("/api/administrador", administradorRouter);
+app.use("/api/cliente", clienteRouter);
 app.use('/api/cliente',clienteRouter)
 app.use('/api/autor', autorRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/libro',libroRouter)
-
-
-
-
-
-
-
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+
+
+//parte cambiada para configurar vagrant 
+// app.listen(PORT, () => {
+//   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// });
+
+app.listen(5000, '0.0.0.0', () => {
+  console.log("Servidor corriendo en http://localhost:5000");
 });

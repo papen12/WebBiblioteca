@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { supabase } from '../src/Config/supabase';
 import { Cliente } from '../Models/Cliente';
 import { generateToken } from '../src/utils/jwt';
-import { error } from 'console';
+
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {

@@ -5,6 +5,7 @@ import autorRouter from '../Routes/AutorRouter';
 import clienteRouter from '../Routes/ClienteRoutes';
 import personaRouter from '../Routes/PersonaRoutes';
 import authRouter from '../Routes/authRouter';
+import libroRouter from '../Routes/LibroRouter';
 
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use('/api/persona', personaRouter);
 app.use('/api/cliente',clienteRouter)
 app.use('/api/autor', autorRouter)
 app.use('/api/auth',authRouter)
+app.use('/api/libro',libroRouter)
 
 
 

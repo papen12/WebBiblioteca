@@ -1,12 +1,9 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 
 import cors from 'cors';
-import personaRouter from '../Routes/PersonaRoutes';
 import multaRouter from '../Routes/MultaRouter';
 import reservaRouter from '../Routes/ReservaRouter';
-
 import autorRouter from '../Routes/AutorRouter';
 import clienteRouter from '../Routes/ClienteRoutes';
 import personaRouter from '../Routes/PersonaRoutes';

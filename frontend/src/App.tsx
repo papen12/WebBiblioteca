@@ -1,15 +1,24 @@
-import { useEffect, useState } from 'react';
+// import { Routes, Route, Navigate } from 'react-router-dom';
+// import LoginForm from '../src/components/login/LoginForm';
+// import Perfil from '../src/components/perfil/Perfil';
+// import ProtectedRoute from '../src/routes/protectedRoute';
+import { AutorCarousel } from './components/ui/carrouselAutores/AutorCarousel';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch('/api') // Usa el proxy configurado en vite.config.ts
-      .then(res => res.json())
-      .then(data => setMessage(data.message));
-  }, []);
-
-  return <h1>{message || 'Cargando...'}</h1>;
+  return (
+    // <Routes>
+    //   <Route path="/" element={<Navigate to="/login" />} />
+    //   <Route path="/login" element={<LoginForm />} />
+    //   <Route
+    //     path="/perfil"
+    //     element={
+    //       <ProtectedRoute>
+    //         <Perfil />
+    //       </ProtectedRoute>
+    //     }
+    //   />
+    // </Routes>
+    <AutorCarousel></AutorCarousel>
+  );
 }
-
 export default App;

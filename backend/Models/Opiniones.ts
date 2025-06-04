@@ -6,3 +6,4 @@ export interface Opiniones{
     comentario : string
     fecha : Date
 }
+export type OpinionesFunc = Omit<Opiniones, "idOpinion" >;

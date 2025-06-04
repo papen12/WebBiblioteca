@@ -15,6 +15,30 @@ export class AutorController {
         }
     }
 
+    static async getAutorByNombre(req: Request, res: Response): Promise<void> {
+    const nombre = req.query.nombre as string;
+
+    if (!nombre) {
+        res.status(400).json({ error: "El parámetro 'nombre' es requerido" });
+        return;
+    }
+
+    try {
+        const { data, error } = await supabase
+            .from("autor")
+            .select("*")
+            .ilike("nombre", `%${nombre}%`);
+
+        if (error) throw error;
+
+        res.status(200).json(data);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Fallo al buscar autor por nombre" });
+    }
+}
+
+
     static async getAutorById(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
         const intId = parseInt(id, 10);

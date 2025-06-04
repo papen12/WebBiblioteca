@@ -8,3 +8,4 @@ export interface Libro{
     editorial:string
     fechaPublicacion:Date
 }
+export type LibroFunc = Omit<Libro, "id">;

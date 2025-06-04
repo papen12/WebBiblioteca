@@ -4,4 +4,3 @@ export interface Cliente{
     usuario :string
     password:string
 }
-export type ClienteFunc = Omit<Cliente, "id">;

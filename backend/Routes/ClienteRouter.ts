@@ -3,10 +3,10 @@ import { ClienteController } from "../Controllers/ClienteController";
 
 const clienteRouter = Router();
 
-clienteRouter.get("/", ClienteController.getAll);
-clienteRouter.get("/:ci", ClienteController.getById);
-clienteRouter.post("/", ClienteController.create);
-clienteRouter.put("/:ci", ClienteController.update);
-clienteRouter.delete("/:ci", ClienteController.delete);
+clienteRouter.get("/", ClienteController.getCliente);
+clienteRouter.get("/:ci", ClienteController.getClienteId);
+clienteRouter.post("/", ClienteController.createCliente);
+clienteRouter.put("/:ci", ClienteController.updateCliente);
+clienteRouter.delete("/:ci", ClienteController.deleteCliente);
 
 export default clienteRouter;

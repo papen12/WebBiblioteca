@@ -2,11 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../ui/input/Input";
 import Button from "../ui/button/Button";
+import { fetchApi } from "../../services/api"; 
+import { LogIn } from "lucide-react";
+import logazo from "../../assets/logazo.png"
 
 const LoginForm = () => {
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const navItems=[
+    
+  ]
+
 
   const navigate = useNavigate();
 
@@ -17,23 +24,15 @@ const LoginForm = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const data = await fetchApi("/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, password }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setMensaje(data.error || "Error de autenticación");
-        return;
-      }
-
       localStorage.setItem("token", data.token);
       navigate("/perfil");
-    } catch (error) {
-      setMensaje("Error de red");
+    } catch (error: any) {
+      setMensaje(error.message || "Error de autenticación");
     }
   };
 

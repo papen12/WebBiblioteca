@@ -1,73 +1,105 @@
 import { Request, Response } from "express";
 import { supabase } from "../src/Config/supabase";
+import { Cliente } from "../Models/Cliente";
+import { PersonaFunc, Persona } from "../Models/Persona";
 
 export class SignupController {
   static async signUp(req: Request, res: Response): Promise<void> {
-    const {
-      nombre,
-      apellido,
-      email,
-      telefono,
-      direccion,
-      genero,
-      ci_cliente,
-      usuario,
-      password
-    } = req.body;
+    const personaData: PersonaFunc = {
+      nombre: req.body.nombre,
+      apellido: req.body.apellido,
+      email: req.body.email,
+      telefono: req.body.telefono,
+      direccion: req.body.direccion,
+      genero: req.body.genero
+    };
 
-    if (!nombre || !apellido || !email || !telefono || !direccion || !genero || !ci_cliente || !usuario || !password) {
+    const clienteData: Omit<Cliente, "idPersona"> = {
+      ci_cliente: req.body.ci_cliente,
+      usuario: req.body.usuario,
+      password: req.body.password
+    };
+    if (!personaData.nombre || !personaData.apellido || !personaData.email || 
+        !clienteData.ci_cliente || !clienteData.usuario || !clienteData.password) {
       res.status(400).json({ error: "Faltan datos obligatorios" });
       return;
     }
 
     try {
-      const { data: personaData, error: personaError } = await supabase
+      const { data: newPersona, error: personaError } = await supabase
         .from("persona")
-        .insert({
-          nombre,
-          apellido,
-          email,
-          telefono,
-          direccion,
-          genero,
-        })
+        .insert(personaData)
         .select("id_persona")
         .single();
 
-      if (personaError) {
-        res.status(400).json({ error: "Error al crear persona", detalle: personaError.message });
+      if (personaError || !newPersona) {
+        console.error("Error en inserción de persona:", personaError);
+        res.status(400).json({ 
+          error: "Error al crear persona",
+          details: personaError?.message || "No se devolvieron datos"
+        });
         return;
       }
+      const completeClienteData: Cliente = {
+        ...clienteData,
+        idPersona: newPersona.id_persona
+      };
 
-      if (!personaData) {
-        res.status(404).json({ error: "Persona no encontrada después de la inserción" });
-        return;
-      }
-
-      const { data: clienteData, error: clienteError } = await supabase
+      const { data: newCliente, error: clienteError } = await supabase
         .from("cliente")
         .insert({
-          ci_cliente,
-          id_persona: personaData.id_persona,
-          usuario,
-          password,
+          ci_cliente: completeClienteData.ci_cliente,
+          id_persona: completeClienteData.idPersona,
+          usuario: completeClienteData.usuario,
+          password: completeClienteData.password
         })
+        .select()
         .single();
 
-      if (clienteError) {
-        res.status(400).json({ error: "Error al crear cliente", detalle: clienteError.message });
+      if (clienteError || !newCliente) {
+        await supabase
+          .from("persona")
+          .delete()
+          .eq("id_persona", newPersona.id_persona);
+
+        res.status(400).json({ 
+          error: "El nombre del usuario ya existe intente nuevamente",
+          details: clienteError?.message || "No se devolvieron datos"
+        });
         return;
       }
+      res.status(201).json({ 
+        message: "Cliente creado exitosamente",
+        cliente: newCliente,
+        persona: newPersona
+      });
 
-      if (!clienteData) {
-        res.status(404).json({ error: "Cliente no encontrado después de la inserción" });
-        return;
-      }
-
-      res.status(201).json({ message: "Cliente creado exitosamente", cliente: clienteData });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error en el servidor" });
+      console.error("Error en el servidor:", error);
+      res.status(500).json({ 
+        error: "Error en el servidor",
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  }
+
+  static async getCliente(req: Request, res: Response): Promise<void> {
+    try {
+      const { data, error } = await supabase
+        .from("cliente")
+        .select(`
+          *,
+          persona: id_persona (*)
+        `);
+
+      if (error) throw error;
+      res.status(200).json(data);
+    } catch (e) {
+      console.error("Error al obtener clientes:", e);
+      res.status(500).json({ 
+        error: "Fallo al obtener clientes",
+        details: e instanceof Error ? e.message : String(e)
+      });
     }
   }
 }

@@ -5,11 +5,12 @@ import cors from 'cors';
 import multaRouter from '../Routes/MultaRouter';
 import reservaRouter from '../Routes/ReservaRouter';
 import autorRouter from '../Routes/AutorRouter';
-import clienteRouter from '../Routes/ClienteRoutes';
 import personaRouter from '../Routes/PersonaRoutes';
 import authRouter from '../Routes/authRouter';
 import libroRouter from '../Routes/LibroRouter';
 import administradorRouter from '../Routes/AdministradorRouter';
+import clienteRouter from '../Routes/ClienteRouter';
+import signUpRouter from '../Routes/signUpRouter';
 
 
 
@@ -30,15 +31,14 @@ app.use(express.json());
 
 
 app.use('/api/persona', personaRouter);
-app.use('/api/autor', autorRouter);
 app.use('/api/multa', multaRouter);
 app.use('/api/reserva', reservaRouter);
-app.use("/api/administrador", administradorRouter);
-app.use("/api/cliente", clienteRouter);
+app.use('/api/administrador', administradorRouter);
 app.use('/api/cliente',clienteRouter)
 app.use('/api/autor', autorRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/libro',libroRouter)
+app.use('/api/signup', signUpRouter);
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });
 });

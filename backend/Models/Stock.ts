@@ -5,3 +5,5 @@ export interface Stock{
     disponibilidad : boolean
     estado : string
 }
+
+export type StockFunc = Omit<Stock, "idLibro">;

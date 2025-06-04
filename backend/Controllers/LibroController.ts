@@ -31,21 +31,29 @@ export class LibroController {
         }
     }
 
-    static async getLibroTitulo(req: Request, res: Response):Promise<void>{
-        const {tittle}=req.params
-        console.log(tittle)
-        try{
-            const {data, error}=await supabase
+    static async getLibroTitulo(req: Request, res: Response): Promise<void> {
+    const { titulo } = req.query;
+
+    if (!titulo || typeof titulo !== "string") {
+        res.status(400).json({ error: "El parámetro 'titulo' es requerido" });
+        return;
+    }
+
+    try {
+        const { data, error } = await supabase
             .from("libro")
             .select("*")
-            .ilike("titulo", `%${tittle}%`)
-            if(error) throw error
-            res.status(200).json({data:data,message:"Libro obtenido correctamente"})
-        }catch(error){
-            console.log(error)
-            res.status(500).json({error:"fallo al obtener el libro"})
-        }
+            .ilike("titulo", `%${titulo}%`);
+        
+        if (error) throw error;
+
+        res.status(200).json({ data, message: "Libros encontrados correctamente" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Fallo al buscar libros por título" });
     }
+}
+
     
     static async getLirboIsbn(req: Request, res: Response):Promise<void>{
         

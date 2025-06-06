@@ -23,7 +23,6 @@ export const Home: FC = () => {
         className="home-navbar"
       />
       <Hero></Hero>
-      
     </div>
   );
 };

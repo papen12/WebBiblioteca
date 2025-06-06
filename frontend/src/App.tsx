@@ -23,8 +23,8 @@ function App() {
     // </Routes>
     // <AutorCarousel></AutorCarousel>
     // <Home></Home>
-    //<SignUp></SignUp>
-    <Home></Home>
+     <SignUp></SignUp>
+    //<Home></Home>
   );
 }
 export default App;

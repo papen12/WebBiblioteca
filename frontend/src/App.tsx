@@ -5,6 +5,7 @@
 // import { AutorCarousel } from './components/ui/carrouselAutores/AutorCarousel';
 import SignUp from './components/signUp/signUp';
 import './index.css'
+import { Home } from './pages/landing/Home';
 // import { Home } from "./pages/landing/Home";
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
     // </Routes>
     // <AutorCarousel></AutorCarousel>
     // <Home></Home>
-    <SignUp></SignUp>
+    //<SignUp></SignUp>
+    <Home></Home>
   );
 }
 export default App;

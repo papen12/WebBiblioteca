@@ -1,0 +1,55 @@
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ccc;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-lang {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.4rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.footer-lang:hover {
+  background-color: #e0e0e0;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: #aaa;
+}

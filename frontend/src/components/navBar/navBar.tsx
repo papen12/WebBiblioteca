@@ -1,16 +1,16 @@
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useState } from 'react';
 import './navBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'; 
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import imgBib from '../../assets/logazo.png';
 import type { NavBarProps, NavItem } from '../types/list';
 
-export const NavBar: FC<NavBarProps> = ({ 
-  items, 
-  logo = imgBib, 
-  logoAlt = "Logo", 
-  className = "" 
+export const NavBar: FC<NavBarProps> = ({
+  items,
+  logo = imgBib,
+  logoAlt = "Logo",
+  className = ""
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -21,7 +21,7 @@ export const NavBar: FC<NavBarProps> = ({
           <img src={logo} alt={logoAlt} width="40" height="40" />
           <h1>Biblioverso</h1>
         </div>
-        <button 
+        <button
           className="navbar-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle navigation"
@@ -30,16 +30,16 @@ export const NavBar: FC<NavBarProps> = ({
         </button>
       </div>
       <ul className={`navbar-list ${isMenuOpen ? 'open' : ''}`}>
-        {items.map((item: NavItem) => ( 
+        {items.map((item: NavItem) => (
           <li key={item.id} className="navbar-item">
-            <a 
+            <a
               href={item.href}
-              onClick={() => setIsMenuOpen(false)} 
+              onClick={() => setIsMenuOpen(false)}
             >
               {item.icon && (
-                <FontAwesomeIcon 
-                  icon={item.icon} 
-                  className="navbar-icon" 
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  className="navbar-icon"
                 />
               )}
               <span className="navbar-label">{item.label}</span>

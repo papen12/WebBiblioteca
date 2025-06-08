@@ -1,0 +1,185 @@
+.autor-carousel-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 50px;
+}
+
+.autor-carousel-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.loading, .error, .empty {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.carousel-controls {
+  position: relative;
+}
+
+.autor-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 25px;
+  padding: 20px 10px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.autor-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.autor-card {
+  flex: 0 0 auto;
+  width: 280px;
+  scroll-snap-align: start;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.autor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.autor-avatar {
+  height: 80px;
+  width: 80px;
+  margin: 20px auto;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.autor-info {
+  padding: 0 20px 20px;
+  text-align: center;
+}
+
+.autor-nombre {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.autor-nacionalidad {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.autor-vida {
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.autor-biografia {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.carousel-button.left {
+  left: -25px;
+}
+
+.carousel-button.right {
+  right: -25px;
+}
+
+.carousel-button:hover {
+  background: #f5f5f5;
+  transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .autor-carousel-container {
+    padding: 0 20px;
+  }
+  
+  .autor-card {
+    width: 220px;
+  }
+  
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .carousel-button.left {
+    left: -15px;
+  }
+  
+  .carousel-button.right {
+    right: -15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .autor-carousel {
+    gap: 15px;
+  }
+  
+  .autor-card {
+    width: 200px;
+  }
+  
+  .autor-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
+
+

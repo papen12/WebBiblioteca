@@ -4,7 +4,9 @@ import { NavBar } from '../../components/navBar/navBar';
 import Hero from '../../components/hero/Hero';
 import { faHome, faBook, faUser, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../assets/logazo.png'; 
-//import Footer from '../../components/footer/footer';
+import LibroCarousel from '../../components/carrouselLibros/LibroCarousel';
+import AutorCarousel from '../../components/carrouselAutores/AutorCarousel';
+import Footer from '../../components/footer/footer';
 
 export const Home: FC = () => {
   const navItems = [
@@ -23,6 +25,9 @@ export const Home: FC = () => {
         className="home-navbar"
       />
       <Hero></Hero>
+      <LibroCarousel></LibroCarousel>
+      <AutorCarousel></AutorCarousel>
+      <Footer></Footer>
     </div>
   );
 };

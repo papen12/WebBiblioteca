@@ -3,9 +3,9 @@
 // import Perfil from '../src/components/perfil/Perfil';
 // import ProtectedRoute from '../src/routes/protectedRoute';
 // import { AutorCarousel } from './components/ui/carrouselAutores/AutorCarousel';
-import SignUp from './components/signUp/signUp';
+// import SignUp from './components/signUp/signUp';w
 import './index.css'
-// import { Home } from "./pages/landing/Home";
+import { Home } from "./pages/landing/Home";
 function App() {
   return (
     // <Routes>
@@ -21,8 +21,8 @@ function App() {
     //   />
     // </Routes>
     // <AutorCarousel></AutorCarousel>
-    // <Home></Home>
-    <SignUp></SignUp>
+    <Home></Home>
+    // <SignUp></SignUp>
   );
 }
 export default App;

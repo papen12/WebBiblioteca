@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
                     d="M9 19V6h13M9 6 5 3v16a1 1 0 0 0 1 1h2"
                   />
                 </svg>
-                Biblioteca
+                BiblioVerso
               </span>
             </div>
             <h1 className="hero-title">

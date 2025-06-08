@@ -5,7 +5,12 @@
 // import { AutorCarousel } from './components/ui/carrouselAutores/AutorCarousel';
 // import SignUp from './components/signUp/signUp';w
 import './index.css'
+<<<<<<< HEAD
 import { Home } from "./pages/landing/Home";
+=======
+import { Home } from './pages/landing/Home';
+// import { Home } from "./pages/landing/Home";
+>>>>>>> 227e3ae27196f46d01ad69b556b375e460d4e301
 function App() {
   return (
     // <Routes>
@@ -21,8 +26,14 @@ function App() {
     //   />
     // </Routes>
     // <AutorCarousel></AutorCarousel>
+<<<<<<< HEAD
     <Home></Home>
     // <SignUp></SignUp>
+=======
+    // <Home></Home>
+     <SignUp></SignUp>
+    //<Home></Home>
+>>>>>>> 227e3ae27196f46d01ad69b556b375e460d4e301
   );
 }
 export default App;

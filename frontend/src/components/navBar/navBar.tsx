@@ -1,5 +1,6 @@
-import type { FC } from 'react';
-import { useState } from 'react';
+import type {FC} from 'react'
+import {  useState } from 'react';
+import { Link } from 'react-router-dom';
 import './navBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -32,18 +33,16 @@ export const NavBar: FC<NavBarProps> = ({
       <ul className={`navbar-list ${isMenuOpen ? 'open' : ''}`}>
         {items.map((item: NavItem) => (
           <li key={item.id} className="navbar-item">
-            <a
-              href={item.href}
+            <Link
+              to={item.href}
               onClick={() => setIsMenuOpen(false)}
+              className="navbar-link"
             >
               {item.icon && (
-                <FontAwesomeIcon
-                  icon={item.icon}
-                  className="navbar-icon"
-                />
+                <FontAwesomeIcon icon={item.icon} className="navbar-icon" />
               )}
               <span className="navbar-label">{item.label}</span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

@@ -4,6 +4,9 @@ import { signUpService} from "../../services/SignUpService";
 import Button from "../ui/button/Button";
 import Input from "../ui/input/Input";
 import './signUp.css'
+import { NavBar } from "../navBar/navBar";
+import logazo from "../../assets/logazo.png"
+import { faHome, faBook, faUser, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState<SignUpData>({
@@ -17,6 +20,12 @@ const SignUp: React.FC = () => {
     usuario: "",
     password: "",
   });
+  const navItems=[
+          { id: '1', label: 'Inicio', href: '/', icon: faHome },
+          { id: '2', label: 'Catálogo', href: '/catalogo', icon: faBook },
+          { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
+          { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
+    ]
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -61,7 +70,14 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="signup-form">
+    <>
+    <NavBar
+      items={navItems}
+      logo={logazo}
+      logoAlt="Logo de la aplicacion">
+      </NavBar>
+      <div className="signUp-container">
+      <form onSubmit={handleSubmit} className="signup-form">
       <Input
         placeholder="Nombre"
         type="text"
@@ -127,12 +143,15 @@ const SignUp: React.FC = () => {
       />
 
       <Button handleClick={() => {}} disabled={loading}>
-        {loading ? "Creando..." : "Crear Cliente"}
+        {loading ? "Creando..." : "Crear Cuenta"}
       </Button>
 
-      {message && <p style={{ color: "green" }}>{message}</p>}
+      {message && <p style={{ color: "White" }}>{message}</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </form>
+    </div>
+    </>
+    
   );
 };
 

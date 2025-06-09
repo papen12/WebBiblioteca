@@ -44,7 +44,7 @@ const AutorCarousel: React.FC = () => {
   return (
     <div className="autor-carousel-container">
       <h2>Nuestros Autores</h2>
-      <div className="carousel-controls">
+      <div className="carousel-controlsA">
         <button onClick={scrollLeft} className="carousel-button left" aria-label="Anterior">‹</button>
         
         <div className="autor-carousel" ref={carouselRef}>

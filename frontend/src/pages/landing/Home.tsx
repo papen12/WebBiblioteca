@@ -15,7 +15,6 @@ export const Home: FC = () => {
     { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
     { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
   ];
-
   return (
     <div className="home-container">
       <NavBar

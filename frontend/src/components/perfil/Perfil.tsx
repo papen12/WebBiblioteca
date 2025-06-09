@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/button/Button";
 import { fetchApi } from "../../services/api";
+import { NavBar } from "../navBar/navBar";
 
 const Perfil = () => {
   const [cliente, setCliente] = useState<any>(null);

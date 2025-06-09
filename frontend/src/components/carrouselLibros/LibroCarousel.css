@@ -3,13 +3,17 @@
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 50px;
+  background: linear-gradient(to right, rgba(42, 32, 50, 0.05), rgba(0, 41, 132, 0.05), rgba(42, 32, 50, 0.05));
+  border-radius: 16px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .loading, .error, .empty {
   text-align: center;
   padding: 2rem;
   font-size: 1.2rem;
-  color: #666;
+  color: rgba(42, 32, 50, 0.7);
 }
 
 .libro-carousel {
@@ -31,15 +35,18 @@
   flex: 0 0 auto;
   width: 180px;
   scroll-snap-align: start;
-  background: white;
+  background: #FFFFFF;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 41, 132, 0.15);
+  transition: all 0.3s ease;
+  border-bottom: 3px solid #6EC6FF;
 }
 
 .libro-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 0 8px 20px rgba(0, 41, 132, 0.25);
+  border-bottom-color: #002984;
 }
 
 .portada-container {
@@ -47,70 +54,136 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(110, 198, 255, 0.2) 100%);
   overflow: hidden;
+  position: relative;
+}
+
+.portada-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #002984;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  opacity: 0.8;
 }
 
 .portada-img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(42, 32, 50, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.libro-card:hover .portada-img {
+  transform: scale(1.05);
 }
 
 .libro-info {
   padding: 12px;
   text-align: center;
+  background: #FFFFFF;
+  border-top: 1px solid rgba(110, 198, 255, 0.3);
 }
 
 .libro-titulo {
   margin: 0 0 5px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: #002984;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.libro-titulo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 2px;
+  background: #2A2032;
+  border-radius: 2px;
 }
 
 .libro-editorial {
   margin: 0;
   font-size: 12px;
-  color: #666;
+  color: rgba(42, 32, 50, 0.7);
+  font-style: italic;
 }
 
 .carousel-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: white;
-  border: none;
+  background: #FFFFFF;
+  border: 2px solid #002984;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 8px;
   font-size: 20px;
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 41, 132, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #002984;
+  transition: all 0.2s ease;
 }
 
 .carousel-button.left {
   left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .carousel-button.right {
   right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .carousel-button:hover {
-  background: #f0f0f0;
+  background: #002984;
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+
+.libro-card::before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #2A2032;
+  color: #FFFFFF;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  z-index: 5;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
   .libro-carousel-container {
     padding: 0 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   
   .libro-card {
@@ -119,5 +192,11 @@
   
   .portada-container {
     height: 180px;
+  }
+  
+  .carousel-button {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
   }
 }

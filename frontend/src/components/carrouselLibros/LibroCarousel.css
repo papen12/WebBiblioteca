@@ -129,7 +129,7 @@
   border: 2px solid #002984;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
   z-index: 10;
@@ -143,14 +143,10 @@
 
 .carousel-button.left {
   left: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 .carousel-button.right {
   right: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .carousel-button:hover {

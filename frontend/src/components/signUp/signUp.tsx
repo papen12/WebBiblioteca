@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import type { SignUpData } from "../../services/SignUpService";
-import { signUpService} from "../../services/SignUpService";
+import { signUpService } from "../../services/SignUpService";
 import Button from "../ui/button/Button";
 import Input from "../ui/input/Input";
-import './signUp.css'
+import './signUp.css';
 import { NavBar } from "../navBar/navBar";
-import logazo from "../../assets/logazo.png"
+import logazo from "../../assets/logazo.png";
 import { faHome, faBook, faUser, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const SignUp: React.FC = () => {
@@ -20,12 +20,13 @@ const SignUp: React.FC = () => {
     usuario: "",
     password: "",
   });
-  const navItems=[
-          { id: '1', label: 'Inicio', href: '/', icon: faHome },
-          { id: '2', label: 'Catálogo', href: '/catalogo', icon: faBook },
-          { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
-          { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
-    ]
+  
+  const navItems = [
+    { id: '1', label: 'Inicio', href: '/', icon: faHome },
+    { id: '2', label: 'Catálogo', href: '/catalogo', icon: faBook },
+    { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
+    { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
+  ];
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -71,87 +72,97 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-    <NavBar
-      items={navItems}
-      logo={logazo}
-      logoAlt="Logo de la aplicacion">
+      <NavBar
+        items={navItems}
+        logo={logazo}
+        logoAlt="Logo de la aplicacion">
       </NavBar>
       <div className="signUp-container">
-      <form onSubmit={handleSubmit} className="signup-form">
-      <Input
-        placeholder="Nombre"
-        type="text"
-        value={formData.nombre}
-        handleInput={handleInputChange("nombre")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Apellido"
-        type="text"
-        value={formData.apellido}
-        handleInput={handleInputChange("apellido")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Email"
-        type="email"
-        value={formData.email}
-        handleInput={handleInputChange("email")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Teléfono"
-        type="tel"
-        value={formData.telefono}
-        handleInput={handleInputChange("telefono")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Dirección"
-        type="text"
-        value={formData.direccion}
-        handleInput={handleInputChange("direccion")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Género"
-        type="text"
-        value={formData.genero}
-        handleInput={handleInputChange("genero")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="CI Cliente"
-        type="text"
-        value={formData.ci_cliente}
-        handleInput={handleInputChange("ci_cliente")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Usuario"
-        type="text"
-        value={formData.usuario}
-        handleInput={handleInputChange("usuario")}
-        resetMessage={() => {}}
-      />
-      <Input
-        placeholder="Contraseña"
-        type="password"
-        value={formData.password}
-        handleInput={handleInputChange("password")}
-        resetMessage={() => {}}
-      />
+        <form onSubmit={handleSubmit} className="signup-form">
+          <h2>Registro de Usuario</h2>
+          <div className="title-underline"></div>
+          
+          <div className="inputs-grid">
+            <div>
+              <Input
+                placeholder="Nombre"
+                type="text"
+                value={formData.nombre}
+                handleInput={handleInputChange("nombre")}
+                resetMessage={() => {}}
+              />
+                <Input
+            placeholder="CI Cliente"
+            type="text"
+            value={formData.ci_cliente}
+            handleInput={handleInputChange("ci_cliente")}
+            resetMessage={() => {}}
+          />
+             
+              <Input
+                placeholder="Dirección"
+                type="text"
+                value={formData.direccion}
+                handleInput={handleInputChange("direccion")}
+                resetMessage={() => {}}
+              />
+              <Input
+                placeholder="Usuario"
+                type="text"
+                value={formData.usuario}
+                handleInput={handleInputChange("usuario")}
+                resetMessage={() => {}}
+              />
+            </div>
+            <div>
+              <Input
+                placeholder="Apellido"
+                type="text"
+                value={formData.apellido}
+                handleInput={handleInputChange("apellido")}
+                resetMessage={() => {}}
+              />
+              <Input
+                placeholder="Teléfono"
+                type="tel"
+                value={formData.telefono}
+                handleInput={handleInputChange("telefono")}
+                resetMessage={() => {}}
+              />
+              <Input
+                placeholder="Género"
+                type="text"
+                value={formData.genero}
+                handleInput={handleInputChange("genero")}
+                resetMessage={() => {}}
+              />
+              <Input
+                placeholder="Contraseña"
+                type="password"
+                value={formData.password}
+                handleInput={handleInputChange("password")}
+                resetMessage={() => {}}
+              />
+            </div>
+          </div>
+           <Input
+                placeholder="Email"
+                type="email"
+                value={formData.email}
+                handleInput={handleInputChange("email")}
+                resetMessage={() => {}}
+              />
+        
 
-      <Button handleClick={() => {}} disabled={loading}>
-        {loading ? "Creando..." : "Crear Cuenta"}
-      </Button>
+          <Button handleClick={() => {}} disabled={loading}>
+            {loading ? "Creando..." : "Crear Cuenta"}
+          </Button>
 
-      {message && <p style={{ color: "White" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </form>
-    </div>
+          {message && <p style={{ color: "White" }}>{message}</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </form>
+      </div>
     </>
-    
   );
 };
 

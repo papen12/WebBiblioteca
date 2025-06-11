@@ -28,4 +28,11 @@ export class LibroService {
             method: "DELETE",
         });
     }
+
+    static async getByTitulo(titulo:string):Promise<Libro[]>{
+        return fetchApi(`/libro/titulo/${titulo}`)
+    }
+    static async getByGenero(genero:string):Promise<Libro[]>{
+        return fetchApi(`/libro/genero/${genero}`)
+    }
 }

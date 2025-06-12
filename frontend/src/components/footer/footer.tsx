@@ -13,11 +13,28 @@ const Footer: FC = () => {
   return (
     <footer className="footer">
       <div className="footer-links">
-        <a href="#">La Mejor </a>
-        <a href="#">BiBlioteca</a>
-        <a href="#">De</a>
-        <a href="#">Todo</a>
-        <a href="#">Sucre</a>
+        <div className="footer-section">
+          <h3>Biblioverso</h3>
+          <p>Tu biblioteca digital de confianza.</p>
+          <p>Descubre, aprende y explora.</p>
+        </div>
+        <div className="footer-section">
+          <h4>Recursos</h4>
+          <a href="#">Catálogo</a>
+          <a href="#">Novedades</a>
+          <a href="#">Recomendaciones</a>
+        </div>
+        <div className="footer-section">
+          <h4>Soporte</h4>
+          <a href="#">Ayuda</a>
+          <a href="#">Contacto</a>
+          <a href="#">Preguntas Frecuentes</a>
+        </div>
+        <div className="footer-section">
+          <h4>Legal</h4>
+          <a href="#">Política de Privacidad</a>
+          <a href="#">Términos y Condiciones</a>
+        </div>
       </div>
 
       <div className="footer-social">
@@ -28,10 +45,8 @@ const Footer: FC = () => {
         <FontAwesomeIcon icon={faYoutube} />
       </div>
 
-      <button className="footer-lang">English</button>
-
       <div className="footer-copy">
-        Copyright © CyberAgent, Inc.
+        Copyright © BIBLIOVERSO
       </div>
     </footer>
   );

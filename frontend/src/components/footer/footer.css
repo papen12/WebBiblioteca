@@ -1,6 +1,16 @@
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --gray: rgba(255, 255, 255, 0.53);
+  --color1: #0036ac;
+  --color2: #6EC6FF;
+  --color3: #2A2032;
+  --color4: #FFFAF0;
+}
+
 .footer {
-  background-color: #1a252f;
-  color: white;
+  background: radial-gradient(circle at top left, var(--color3) 40%, var(--color1) 60%);
+  color: var(--white);
   text-align: center;
   padding: 2rem 1rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,13 +26,13 @@
 }
 
 .footer-links a {
-  color: white;
+  color: var(--white);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #ccc;
+  color: var(--gray);
 }
 
 .footer-social {
@@ -34,8 +44,8 @@
 }
 
 .footer-lang {
-  background-color: white;
-  color: black;
+  background-color: var(--white);
+  color: var(--black);
   border: none;
   border-radius: 1rem;
   padding: 0.4rem 1rem;
@@ -51,5 +61,37 @@
 
 .footer-copy {
   font-size: 0.85rem;
-  color: #aaa;
+  color: var(--gray);
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  text-align: left;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.footer-section {
+  min-width: 150px;
+  max-width: 220px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  margin-bottom: 0.5rem;
+  color: var(--white);
+}
+
+.footer-section a {
+  display: block;
+  color: var(--white);
+  text-decoration: none;
+  margin: 0.3rem 0;
+  transition: color 0.3s;
+}
+
+.footer-section a:hover {
+  color: var(--gray);
 }

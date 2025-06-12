@@ -10,6 +10,7 @@ import authRouter from '../Routes/authRouter';
 import libroRouter from '../Routes/LibroRouter';
 import administradorRouter from '../Routes/AdministradorRouter';
 import clienteRouter from '../Routes/ClienteRouter';
+import stockRouter from '../Routes/StockRouter';  
 import signUpRouter from '../Routes/signUpRouter';
 
 
@@ -39,13 +40,15 @@ app.use('/api/autor', autorRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/libro',libroRouter)
 app.use('/api/signup', signUpRouter);
+app.use('/api/stock', stockRouter);
+console.log("Ruta /api/stock cargada correctamente");
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });
 });
 
 
 
-//parte cambiada para configurar vagrant 
+//parte cambiada para configurar vagrant
 // app.listen(PORT, () => {
 //   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 // });

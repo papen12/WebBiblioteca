@@ -30,54 +30,35 @@ export class LibroController {
             res.status(500).json({error:"fallo al obtener el libro"})
         }
     }
-    static async getLibroPorTitulo(req: Request, res: Response): Promise<void> {
-    const { titulo } = req.params;
+
+    static async getLibroTitulo(req: Request, res: Response): Promise<void> {
+    const { titulo } = req.query;
+
+    if (!titulo || typeof titulo !== "string") {
+        res.status(400).json({ error: "El parámetro 'titulo' es requerido" });
+        return;
+    }
+
     try {
         const { data, error } = await supabase
             .from("libro")
             .select("*")
-            .ilike("titulo", `%${titulo}%`);  
-        
-        if (error) throw error;
-        
-        if (data && data.length === 0) {
-            res.status(404).json({ message: "No se encontraron libros con ese título" });
-        } else {
-            res.status(200).json({ data: data, message: "Libros encontrados" });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Error al buscar libros por título" });
-    }
-    }
-    static async getLibroPorGenero(req: Request, res: Response): Promise<void> {
-    const { genero } = req.params;
-    try {
-        const { data, error } = await supabase
-            .from("libro")
-            .select("*")
-            .ilike("genero", `%${genero}%`);  
+            .ilike("titulo", `%${titulo}%`);
         
         if (error) throw error;
 
-        if (data && data.length === 0) {
-            res.status(404).json({ 
-                message: `No se encontraron libros del género '${genero}'` 
-            });
-        } else {
-            res.status(200).json({ 
-                data: data, 
-                message: `Libros del género '${genero}' encontrados` 
-            });
-        }
+        res.status(200).json({ data, message: "Libros encontrados correctamente" });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ 
-            error: "Error al buscar libros por género" 
-        });
+        console.error(error);
+        res.status(500).json({ error: "Fallo al buscar libros por título" });
     }
 }
-}
 
+    
+    static async getLirboIsbn(req: Request, res: Response):Promise<void>{
+        
+    }
+
+}
 
 

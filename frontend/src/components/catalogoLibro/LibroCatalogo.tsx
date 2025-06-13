@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import LibroCard from './LibroCard';
+import LibroCard from '../cardLibro/LibroCard';
 import { LibroService } from '../../services/LibroService';
 import type { Libro } from '../../../../backend/Models/Libro';
 import './LibroCatalogo.css';
@@ -20,6 +20,7 @@ const LibroCatalogo: FC = () => {
         setLibros(librosData);
         const generos = [...new Set(librosData.map(libro => libro.genero))] as string[];
         setGenerosDisponibles(generos);
+        setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido');
       } finally {
@@ -34,23 +35,51 @@ const LibroCatalogo: FC = () => {
     const filtrarLibros = async () => {
       try {
         setLoading(true);
+        setError(null);
         let librosFiltrados: Libro[] = [];
 
         if (filtroTitulo) {
-          librosFiltrados = await LibroService.getByTitulo(filtroTitulo);
+          try {
+            librosFiltrados = await LibroService.getByTitulo(filtroTitulo);
+            if (librosFiltrados.length === 0) {
+              setError(`No se encontraron libros con el título "${filtroTitulo}"`);
+            }
+          } catch (err) {
+            if (err instanceof Error && err.message.includes('404')) {
+              setLibros([]);
+              setError(`No se encontraron libros con el título "${filtroTitulo}"`);
+            } else {
+              throw err;
+            }
+          }
         } else if (filtroGenero) {
-          librosFiltrados = await LibroService.getByGenero(filtroGenero);
+          try {
+            librosFiltrados = await LibroService.getByGenero(filtroGenero);
+            if (librosFiltrados.length === 0) {
+              setError(`No se encontraron libros del género "${filtroGenero}"`);
+            }
+          } catch (err) {
+            if (err instanceof Error && err.message.includes('404')) {
+              setLibros([]);
+              setError(`No se encontraron libros del género "${filtroGenero}"`);
+            } else {
+              throw err;
+            }
+          }
         } else {
           librosFiltrados = await LibroService.getAll();
         }
 
         setLibros(librosFiltrados);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
+        if (!(err instanceof Error && err.message.includes('404'))) {
+          setError(err instanceof Error ? err.message : 'Error desconocido');
+        }
       } finally {
         setLoading(false);
       }
     };
+
     const timer = setTimeout(() => {
       filtrarLibros();
     }, 500);
@@ -61,10 +90,10 @@ const LibroCatalogo: FC = () => {
   const handleResetFiltros = () => {
     setFiltroTitulo('');
     setFiltroGenero('');
+    setError(null);
   };
 
   if (loading) return <div className="loading">Cargando catálogo...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <div className="libro-catalogo-container">
@@ -105,17 +134,19 @@ const LibroCatalogo: FC = () => {
         <button 
           className="reset-btn"
           onClick={handleResetFiltros}
-          disabled={!filtroTitulo && !filtroGenero}
+          disabled={!filtroTitulo && !filtroGenero && !error}
         >
           Reiniciar filtros
         </button>
       </div>
 
+      {error && <div className="error">{error}</div>}
+
       <div className="libros-grid">
         {libros.length > 0 ? (
           libros.map((libro) => <LibroCard key={libro.idLibro} libro={libro} />)
         ) : (
-          <div className="no-results">No se encontraron libros con los filtros aplicados</div>
+          !error && <div className="no-results">No se encontraron libros</div>
         )}
       </div>
     </div>

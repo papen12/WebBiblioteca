@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import AutorCard from '../cardAutor/AutorCard';
 import { AutorService } from '../../services/AutorService';
@@ -26,6 +26,10 @@ const AutorCatalogo: FC = () => {
 
     cargarDatosIniciales();
   }, []);
+
+  useEffect(() => {
+    console.log("FiltroNombre actualizado:", filtroNombre);
+  }, [filtroNombre]);
 
   useEffect(() => {
     const filtrarAutores = async () => {
@@ -75,7 +79,7 @@ const AutorCatalogo: FC = () => {
   };
 
   if (loading) return <div className="loading">Cargando catálogo...</div>;
-  
+
   return (
     <div className="autor-catalogo-container">
       <div className="filtros-container">
@@ -90,7 +94,7 @@ const AutorCatalogo: FC = () => {
           />
         </div>
 
-        <button 
+        <button
           className="reset-btn"
           onClick={handleResetFiltros}
           disabled={!filtroNombre && !error}

@@ -4,8 +4,8 @@ import { AutorController } from "../Controllers/AutorController";
 const autorRouter = Router();
 
 autorRouter.get("/", AutorController.getAutor);
-autorRouter.get("/autor/buscar", AutorController.getAutorByNombre);
 autorRouter.get("/:id", AutorController.getAutorById);
+autorRouter.get("/nombre/:nombre",AutorController.getPorNombre)
 autorRouter.post("/", AutorController.createAutor);
 autorRouter.put("/:id", AutorController.updateAutor);
 autorRouter.delete("/:id", AutorController.deleteAutor);

@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../navBar/navBar";
 import logo from '../../assets/logazo.png'; 
-import { faHome, faBook, faUser, faInfoCircle, faBookReader,  faSignOutAlt,faFeather } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBook, faUser, faInfoCircle, faBookReader,  faSignOutAlt,faFeather,faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import { SideBar } from "../sideBar/sideBar";
 import './Perfil.css';
 import LibroCatalogo from "../catalogoLibro/LibroCatalogo";
 import { fetchApi } from "../../services/api";
 import MiPerfil from "../miPerfil/MiPerfil";
-import Footer from "../footer/footer";
 import AutorCatalogo from "../catalogoAutor/AutorCatalogo";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 const Perfil = () => {
   const [cliente, setCliente] = useState<any>(null);
   const [mensaje, setMensaje] = useState("");
@@ -37,9 +37,6 @@ const Perfil = () => {
 
   const navItems = [
     { id: '1', label: 'Inicio', href: '/', icon: faHome },
-    { id: '2', label: 'Catálogo', href: '/signUp', icon: faBook },
-    { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
-    { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
   ];
 
   const sideBarItems = [
@@ -61,8 +58,14 @@ const Perfil = () => {
       icon: faFeather,
       onClick: () => mostrarComponente('3')
     },
+    {
+      id:"4",
+      label:'Reservar',
+      icon:faNoteSticky,
+      onClick: () => mostrarComponente('3')
+    },
     { 
-      id: '4', 
+      id: '5', 
       label: 'Cerrar Sesión', 
       icon: faSignOutAlt,
       onClick: () => logout()

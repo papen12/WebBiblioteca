@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faPhone, faMapMarkerAlt, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
-import './MiPerfil.css';
+import '/MiPerfil.css';
 
 interface Cliente {
   usuario: string;

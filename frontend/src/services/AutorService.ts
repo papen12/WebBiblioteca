@@ -8,6 +8,19 @@ export class AutorService{
      static async getById(id: number): Promise<Autor> {
     return fetchApi(`/autor/${id}`);
   }
+  static async getByNombre(nombre: string): Promise<Autor[]> {
+  try {
+    const response = await fetchApi(`/autor/nombre/${encodeURIComponent(nombre)}`);
+    console.log("Respuesta completa:", response);
+    if (response && response.data) {
+      return response.data;
+    }
+    return response || [];
+  } catch (error) {
+    console.error("Error en getByNombre:", error);
+    throw new Error("No se pudo realizar la búsqueda");
+  }
+}
 
   static async create(autor: AutorFunc): Promise<Autor> {
     return fetchApi("/autor", {
@@ -28,4 +41,5 @@ export class AutorService{
       method: "DELETE",
     });
   }
+
 }

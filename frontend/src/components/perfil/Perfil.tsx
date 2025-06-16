@@ -2,20 +2,38 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../navBar/navBar";
 import logo from '../../assets/logazo.png'; 
-import { faHome, faBook, faUser, faInfoCircle, faBookReader, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faBookReader, faSignOutAlt, faFeather, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import { SideBar } from "../sideBar/sideBar";
 import './Perfil.css';
 import LibroCatalogo from "../catalogoLibro/LibroCatalogo";
 import { fetchApi } from "../../services/api";
 import MiPerfil from "../miPerfil/MiPerfil";
-import Footer from "../footer/footer";
+import AutorCatalogo from "../catalogoAutor/AutorCatalogo";
+import ReservaCatalogo from "../catalogoReservas/CatalogoReservas";
+
 const Perfil = () => {
   const [cliente, setCliente] = useState<any>(null);
   const [mensaje, setMensaje] = useState("");
   const [componenteActual, setComponenteActual] = useState<React.ReactNode>(null);
   const navigate = useNavigate();
   
+  useEffect(() => {
+    const fetchPerfil = async () => {
+      try {
+        const data = await fetchApi("/auth/perfil");
+        setCliente(data.cliente);
+        setComponenteActual(<MiPerfil cliente={data.cliente} />);
+      } catch (error: any) {
+        setMensaje(error.message || "No autorizado");
+      }
+    };
+
+    fetchPerfil();
+  }, []);
+
   const mostrarComponente = (id: string) => {
+    if (!cliente) return;
+
     switch(id) {
       case "1":
         setComponenteActual(<MiPerfil cliente={cliente} />);
@@ -24,8 +42,12 @@ const Perfil = () => {
         setComponenteActual(<LibroCatalogo />);
         break;
       case "3":
+        setComponenteActual(<AutorCatalogo />);
         break;
       case "4":
+        setComponenteActual(<ReservaCatalogo ciCliente={cliente.ci_cliente } />);
+        break;
+      case "5":
         logout();
         break;
       default:
@@ -35,9 +57,6 @@ const Perfil = () => {
 
   const navItems = [
     { id: '1', label: 'Inicio', href: '/', icon: faHome },
-    { id: '2', label: 'Catálogo', href: '/catalogo', icon: faBook },
-    { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
-    { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
   ];
 
   const sideBarItems = [
@@ -55,31 +74,23 @@ const Perfil = () => {
     },
     { 
       id: '3', 
-      label: 'Configuración',
-      icon: faCog,
+      label: 'Autores',
+      icon: faFeather,
       onClick: () => mostrarComponente('3')
     },
+    {
+      id: "4",
+      label: 'Reservar',
+      icon: faNoteSticky,
+      onClick: () => mostrarComponente('4')
+    },
     { 
-      id: '4', 
+      id: '5', 
       label: 'Cerrar Sesión', 
       icon: faSignOutAlt,
-      onClick: () => logout()
+      onClick: () => mostrarComponente('5')
     },
   ];
-
-  useEffect(() => {
-    const fetchPerfil = async () => {
-      try {
-        const data = await fetchApi("/auth/perfil");
-        setCliente(data.cliente);
-        setComponenteActual(<MiPerfil cliente={data.cliente} />);
-      } catch (error: any) {
-        setMensaje(error.message || "No autorizado");
-      }
-    };
-
-    fetchPerfil();
-  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");

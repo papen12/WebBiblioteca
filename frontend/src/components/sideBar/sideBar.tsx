@@ -2,7 +2,7 @@ import './sideBar.css';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import type { SideBarProps ,SideBarItem} from '../types/sideBar';
 
 export const SideBar: FC<SideBarProps> = ({
@@ -25,29 +25,44 @@ export const SideBar: FC<SideBarProps> = ({
         <div className={`sidebar-container ${className}`}>
             <button className="sidebar-toggle" onClick={toggleSidebar}>
                 <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+                <span className="toggle-glow"></span>
             </button>
             <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
-                    <h3>Bienvenido, {username}</h3>
+                    <div className="user-avatar">
+                        <FontAwesomeIcon icon={faUser} className="avatar-icon" />
+                        <div className="avatar-glow"></div>
+                    </div>
+                    <div className="user-info">
+                        <h3 className="welcome-text">Bienvenido</h3>
+                        <span className="username">{username}</span>
+                    </div>
                 </div>
                 <nav className="sidebar-menu">
                     <ul>
-                        {items.map((item) => (
+                        {items.map((item, index) => (
                             <li 
                                 key={item.id} 
                                 className="sidebar-item"
                                 onClick={() => handleItemClick(item)}
+                                style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                {item.icon && (
-                                    <span className="sidebar-icon">
-                                        <FontAwesomeIcon icon={item.icon} />
-                                    </span>
-                                )}
-                                <span className="sidebar-label">{item.label}</span>
+                                <div className="item-content">
+                                    {item.icon && (
+                                        <span className="sidebar-icon">
+                                            <FontAwesomeIcon icon={item.icon} />
+                                        </span>
+                                    )}
+                                    <span className="sidebar-label">{item.label}</span>
+                                </div>
+                                <div className="item-glow"></div>
                             </li>
                         ))}
                     </ul>
                 </nav>
+                <div className="sidebar-footer">
+                    <div className="footer-decoration"></div>
+                </div>
             </aside>
             {isOpen && (
                 <div 

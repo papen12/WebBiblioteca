@@ -19,8 +19,14 @@ export const NavBar: FC<NavBarProps> = ({
     <nav className={`navbar ${className}`}>
       <div className="navbar-header">
         <div className="navbar-logo">
-          <img src={logo} alt={logoAlt} width="40" height="40" />
-          <h1>Biblioverso</h1>
+          <div className="logo-container">
+            <img src={logo || "/placeholder.svg"} alt={logoAlt} width="45" height="45" />
+            <div className="logo-glow"></div>
+          </div>
+          <div className="brand-text">
+            <h1>Biblioverso</h1>
+            <span className="brand-subtitle">Biblioteca Universal</span>
+          </div>
         </div>
         <button
           className="navbar-toggle"
@@ -42,6 +48,7 @@ export const NavBar: FC<NavBarProps> = ({
                 <FontAwesomeIcon icon={item.icon} className="navbar-icon" />
               )}
               <span className="navbar-label">{item.label}</span>
+              <div className="link-glow"></div>
             </Link>
           </li>
         ))}

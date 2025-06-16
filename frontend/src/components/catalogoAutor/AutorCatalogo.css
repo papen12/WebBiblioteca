@@ -7,16 +7,16 @@
   --color3: #2a2032;
   --color4: #fffaf0;
 }
-*{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.libro-catalogo-container {
+
+.autor-catalogo-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 20px;
- background: linear-gradient(135deg, var(--color3) 0%, var(--black) 100%);
+  background: linear-gradient(135deg, var(--color3) 0%, var(--black) 100%);
   min-height: 100vh;
 }
+
+/* Header Section */
 .header-section {
   text-align: center;
   margin-bottom: 3rem;
@@ -86,7 +86,7 @@
 .filtros-content {
   padding: 2.5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 2.5rem;
   align-items: end;
 }
@@ -108,12 +108,15 @@
 
 .label-icon {
   margin-right: 0.75rem;
-  font-size: 1.3rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   filter: drop-shadow(0 2px 4px rgba(110, 198, 255, 0.5));
 }
 
-.input-field,
-.select-field {
+.input-field {
   width: 100%;
   padding: 14px 18px;
   border: 2px solid rgba(110, 198, 255, 0.3);
@@ -125,8 +128,7 @@
   backdrop-filter: blur(5px);
 }
 
-.input-field:focus,
-.select-field:focus {
+.input-field:focus {
   outline: none;
   border-color: var(--color2);
   box-shadow: 0 0 0 4px rgba(110, 198, 255, 0.2);
@@ -136,11 +138,6 @@
 
 .input-field::placeholder {
   color: rgba(255, 255, 255, 0.5);
-}
-
-.select-field option {
-  background: var(--color3);
-  color: var(--white);
 }
 
 /* Reset Button */
@@ -182,8 +179,11 @@
 
 .btn-icon {
   margin-right: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Error Container */
@@ -201,8 +201,12 @@
 }
 
 .error-icon {
-  font-size: 1.5rem;
+  width: 24px;
+  height: 24px;
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .error-message {
@@ -228,12 +232,21 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Books Grid */
-.libros-grid {
+/* Authors Grid */
+.autores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2.5rem;
   padding: 1rem 0;
+}
+
+.autores-grid > div {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.autores-grid > div:hover {
+  transform: translateY(-5px);
 }
 
 /* No Results */
@@ -253,7 +266,11 @@
 }
 
 .no-results-icon {
-  font-size: 5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1.5rem;
   opacity: 0.7;
   filter: drop-shadow(0 4px 8px rgba(110, 198, 255, 0.3));
@@ -272,66 +289,7 @@
   font-size: 1.1rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .filtros-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .reset-btn {
-    grid-column: 1 / -1;
-    justify-self: center;
-    max-width: 250px;
-  }
-}
-
-@media (max-width: 768px) {
-  .libro-catalogo-container {
-    padding: 1rem 15px;
-  }
-
-  .catalog-title {
-    font-size: 2.5rem;
-  }
-
-  .catalog-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .filtros-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem;
-  }
-
-  .libros-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 2rem;
-  }
-
-  .reset-btn {
-    justify-self: stretch;
-    max-width: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .catalog-title {
-    font-size: 2rem;
-  }
-
-  .libros-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .filtros-content {
-    padding: 1.5rem;
-  }
-}
-/* Estilos para el modal de sinopsis */
-.sinopsis-modal {
+.biografia-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -348,11 +306,11 @@
   cursor: pointer;
 }
 
-.sinopsis-modal.closing {
+.biografia-modal.closing {
   animation: fadeOut 0.3s ease-out forwards;
 }
 
-.sinopsis-content {
+.biografia-content {
   position: relative;
   max-width: 800px;
   width: 100%;
@@ -368,11 +326,11 @@
   pointer-events: auto;
 }
 
-.sinopsis-modal.closing .sinopsis-content {
+.biografia-modal.closing .biografia-content {
   animation: slideDown 0.3s ease-out forwards;
 }
 
-.sinopsis-content h2 {
+.biografia-content h2 {
   color: var(--color2);
   font-size: 2.5rem;
   margin-bottom: 2rem;
@@ -383,7 +341,7 @@
   background-clip: text;
 }
 
-.sinopsis-text {
+.biografia-text {
   color: var(--white);
   font-size: 1.1rem;
   line-height: 1.8;
@@ -409,12 +367,15 @@
   z-index: 10;
 }
 
+.close-btn svg {
+  font-size: 1.5rem;
+}
+
 .close-btn:hover {
   background: rgba(239, 83, 80, 0.3);
   transform: rotate(90deg);
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -447,44 +408,92 @@
   }
 }
 
-/* Wrapper para las cards (sin modificar su apariencia) */
-.libro-card-wrapper {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+@media (max-width: 1024px) {
+  .filtros-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .reset-btn {
+    justify-self: center;
+    max-width: 250px;
+  }
+
+  .autores-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }
 
-.libro-card-wrapper:hover {
-  transform: translateY(-3px);
-}
-
-/* Responsive para el modal */
 @media (max-width: 768px) {
-  .sinopsis-content {
+  .autor-catalogo-container {
+    padding: 1rem 15px;
+  }
+
+  .catalog-title {
+    font-size: 2.5rem;
+  }
+
+  .catalog-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .filtros-content {
+    padding: 2rem;
+  }
+
+  .biografia-content {
     padding: 2rem 1.5rem;
     max-height: 90vh;
   }
   
-  .sinopsis-content h2 {
+  .biografia-content h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
   }
   
-  .sinopsis-text {
+  .biografia-text {
     font-size: 1rem;
+  }
+
+  .autores-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+
+  .reset-btn {
+    justify-self: stretch;
+    max-width: none;
   }
 }
 
 @media (max-width: 480px) {
-  .sinopsis-content {
+  .catalog-title {
+    font-size: 2rem;
+  }
+
+  .biografia-content {
     padding: 1.5rem 1rem;
   }
   
-  .sinopsis-content h2 {
+  .biografia-content h2 {
     font-size: 1.7rem;
   }
   
   .close-btn {
     width: 35px;
     height: 35px;
+  }
+
+  .close-btn svg {
+    font-size: 1.3rem;
+  }
+
+  .autores-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .filtros-content {
+    padding: 1.5rem;
   }
 }

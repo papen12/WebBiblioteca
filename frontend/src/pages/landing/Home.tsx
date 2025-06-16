@@ -11,7 +11,7 @@ import Footer from '../../components/footer/footer';
 export const Home: FC = () => {
   const navItems = [
     { id: '1', label: 'Inicio', href: '/', icon: faHome },
-    { id: '2', label: 'Catálogo', href: '/catalogo', icon: faBook },
+    { id: '2', label: 'Catálogo', href: '/signUp', icon: faBook },
     { id: '4', label: 'Registrarse', href: '/signUp', icon: faUser },
     { id: '5', label: 'Iniciar Sesion', href: '/login', icon: faInfoCircle },
   ];

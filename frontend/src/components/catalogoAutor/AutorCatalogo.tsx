@@ -3,6 +3,14 @@ import type { FC } from 'react';
 import AutorCard from '../cardAutor/AutorCard';
 import { AutorService } from '../../services/AutorService';
 import type { Autor } from '../../../../backend/Models/Autor';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faUser, 
+  faRotateRight, 
+  faExclamationTriangle, 
+  faPen, 
+  faTimes 
+} from '@fortawesome/free-solid-svg-icons';
 import './AutorCatalogo.css';
 
 const AutorCatalogo: FC = () => {
@@ -10,6 +18,8 @@ const AutorCatalogo: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [filtroNombre, setFiltroNombre] = useState<string>('');
+  const [autorSeleccionado, setAutorSeleccionado] = useState<Autor | null>(null);
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   useEffect(() => {
     const cargarDatosIniciales = async () => {
@@ -78,6 +88,19 @@ const AutorCatalogo: FC = () => {
     setError(null);
   };
 
+  const handleCardClick = (autor: Autor) => {
+    setAutorSeleccionado(autor);
+    setIsClosing(false);
+  };
+
+  const handleCloseBiografia = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setAutorSeleccionado(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
   if (loading) {
     return (
       <div className="autor-catalogo-container">
@@ -91,6 +114,24 @@ const AutorCatalogo: FC = () => {
 
   return (
     <div className="autor-catalogo-container">
+      {autorSeleccionado && (
+        <div 
+          className={`biografia-modal ${isClosing ? 'closing' : ''}`}
+          onClick={handleCloseBiografia}
+        >
+          <div 
+            className="biografia-content" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="close-btn" onClick={handleCloseBiografia}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <h2>{autorSeleccionado.nombre}</h2>
+            <p className="biografia-text">{autorSeleccionado.biografia}</p>
+          </div>
+        </div>
+      )}
+
       <div className="header-section">
         <h1 className="catalog-title">Directorio de Autores</h1>
         <p className="catalog-subtitle">Conoce a los escritores de nuestra colección</p>
@@ -100,7 +141,9 @@ const AutorCatalogo: FC = () => {
         <div className="filtros-content">
           <div className="filtro-group">
             <label htmlFor="filtro-nombre">
-              <span className="label-icon">👤</span>
+              <span className="label-icon">
+                <FontAwesomeIcon icon={faUser} />
+              </span>
               Buscar autor
             </label>
             <input
@@ -118,7 +161,9 @@ const AutorCatalogo: FC = () => {
             onClick={handleResetFiltros}
             disabled={!filtroNombre && !error}
           >
-            <span className="btn-icon">↻</span>
+            <span className="btn-icon">
+              <FontAwesomeIcon icon={faRotateRight} />
+            </span>
             Limpiar
           </button>
         </div>
@@ -126,7 +171,9 @@ const AutorCatalogo: FC = () => {
 
       {error && (
         <div className="error-container">
-          <div className="error-icon">⚠</div>
+          <div className="error-icon">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </div>
           <div className="error-message">{error}</div>
         </div>
       )}
@@ -142,11 +189,21 @@ const AutorCatalogo: FC = () => {
 
         <div className="autores-grid">
           {autores.length > 0 ? (
-            autores.map((autor) => <AutorCard key={autor.idAutor} autor={autor} />)
+            autores.map((autor) => (
+              <div 
+                key={autor.idAutor} 
+                onClick={() => handleCardClick(autor)}
+                className="autor-card-wrapper"
+              >
+                <AutorCard autor={autor} />
+              </div>
+            ))
           ) : (
             !error && (
               <div className="no-results">
-                <div className="no-results-icon">✍️</div>
+                <div className="no-results-icon">
+                  <FontAwesomeIcon icon={faPen} />
+                </div>
                 <h3>Sin resultados</h3>
                 <p>No encontramos autores con ese nombre</p>
               </div>

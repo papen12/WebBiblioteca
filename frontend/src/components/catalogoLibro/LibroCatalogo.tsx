@@ -3,6 +3,15 @@ import type { FC } from 'react';
 import LibroCard from '../cardLibro/LibroCard';
 import { LibroService } from '../../services/LibroService';
 import type { Libro } from '../../../../backend/Models/Libro';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faBook, 
+  faRotateRight, 
+  faExclamationTriangle, 
+  faSearch, 
+  faFolder,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 import './LibroCatalogo.css';
 
 const LibroCatalogo: FC = () => {
@@ -12,6 +21,8 @@ const LibroCatalogo: FC = () => {
   const [filtroTitulo, setFiltroTitulo] = useState<string>('');
   const [filtroGenero, setFiltroGenero] = useState<string>('');
   const [generosDisponibles, setGenerosDisponibles] = useState<string[]>([]);
+  const [libroSeleccionado, setLibroSeleccionado] = useState<Libro | null>(null);
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   useEffect(() => {
     const cargarDatosIniciales = async () => {
@@ -93,6 +104,19 @@ const LibroCatalogo: FC = () => {
     setError(null);
   };
 
+  const handleCardClick = (libro: Libro) => {
+    setLibroSeleccionado(libro);
+    setIsClosing(false);
+  };
+
+  const handleCloseSinopsis = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setLibroSeleccionado(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
   if (loading) {
     return (
       <div className="libro-catalogo-container">
@@ -106,6 +130,27 @@ const LibroCatalogo: FC = () => {
 
   return (
     <div className="libro-catalogo-container">
+      {libroSeleccionado && (
+        <div 
+          className={`sinopsis-modal ${isClosing ? 'closing' : ''}`}
+          onClick={handleCloseSinopsis}
+        >
+          <div 
+            className="sinopsis-content" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="close-btn" onClick={handleCloseSinopsis}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <h2>{libroSeleccionado.titulo}</h2>
+            <p className="sinopsis-text">{libroSeleccionado.sinopsis}</p>
+            <div className="libro-info">
+              <p><strong>Género:</strong> {libroSeleccionado.genero}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="header-section">
         <h1 className="catalog-title">Biblioteca Digital</h1>
         <p className="catalog-subtitle">Explora nuestra colección de libros</p>
@@ -115,7 +160,9 @@ const LibroCatalogo: FC = () => {
         <div className="filtros-content">
           <div className="filtro-group">
             <label htmlFor="filtro-titulo">
-              <span className="label-icon">🔍</span>
+              <span className="label-icon">
+                <FontAwesomeIcon icon={faSearch} />
+              </span>
               Buscar por título
             </label>
             <input
@@ -133,7 +180,9 @@ const LibroCatalogo: FC = () => {
 
           <div className="filtro-group">
             <label htmlFor="filtro-genero">
-              <span className="label-icon">📂</span>
+              <span className="label-icon">
+                <FontAwesomeIcon icon={faFolder} />
+              </span>
               Filtrar por género
             </label>
             <select
@@ -159,7 +208,9 @@ const LibroCatalogo: FC = () => {
             onClick={handleResetFiltros}
             disabled={!filtroTitulo && !filtroGenero && !error}
           >
-            <span className="btn-icon">↻</span>
+            <span className="btn-icon">
+              <FontAwesomeIcon icon={faRotateRight} />
+            </span>
             Limpiar
           </button>
         </div>
@@ -167,7 +218,9 @@ const LibroCatalogo: FC = () => {
 
       {error && (
         <div className="error-container">
-          <div className="error-icon">⚠</div>
+          <div className="error-icon">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </div>
           <div className="error-message">{error}</div>
         </div>
       )}
@@ -183,11 +236,21 @@ const LibroCatalogo: FC = () => {
 
         <div className="libros-grid">
           {libros.length > 0 ? (
-            libros.map((libro) => <LibroCard key={libro.idLibro} libro={libro} />)
+            libros.map((libro) => (
+              <div 
+                key={libro.idLibro} 
+                onClick={() => handleCardClick(libro)}
+                className="libro-card-wrapper"
+              >
+                <LibroCard libro={libro} />
+              </div>
+            ))
           ) : (
             !error && (
               <div className="no-results">
-                <div className="no-results-icon">📚</div>
+                <div className="no-results-icon">
+                  <FontAwesomeIcon icon={faBook} />
+                </div>
                 <h3>Sin resultados</h3>
                 <p>Prueba con otros términos de búsqueda</p>
               </div>

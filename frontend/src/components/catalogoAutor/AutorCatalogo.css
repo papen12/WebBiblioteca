@@ -108,7 +108,11 @@
 
 .label-icon {
   margin-right: 0.75rem;
-  font-size: 1.3rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   filter: drop-shadow(0 2px 4px rgba(110, 198, 255, 0.5));
 }
 
@@ -175,8 +179,11 @@
 
 .btn-icon {
   margin-right: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Error Container */
@@ -194,8 +201,12 @@
 }
 
 .error-icon {
-  font-size: 1.5rem;
+  width: 24px;
+  height: 24px;
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .error-message {
@@ -229,6 +240,15 @@
   padding: 1rem 0;
 }
 
+.autores-grid > div {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.autores-grid > div:hover {
+  transform: translateY(-5px);
+}
+
 /* No Results */
 .no-results {
   grid-column: 1 / -1;
@@ -246,7 +266,11 @@
 }
 
 .no-results-icon {
-  font-size: 5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1.5rem;
   opacity: 0.7;
   filter: drop-shadow(0 4px 8px rgba(110, 198, 255, 0.3));
@@ -265,7 +289,125 @@
   font-size: 1.1rem;
 }
 
-/* Responsive Design */
+.biografia-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+  cursor: pointer;
+}
+
+.biografia-modal.closing {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.biografia-content {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  max-height: 80vh;
+  background: linear-gradient(135deg, var(--color3) 0%, var(--black) 100%);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 10px 50px rgba(110, 198, 255, 0.3);
+  border: 1px solid rgba(110, 198, 255, 0.2);
+  overflow-y: auto;
+  animation: slideUp 0.4s ease-out;
+  cursor: auto;
+  pointer-events: auto;
+}
+
+.biografia-modal.closing .biografia-content {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+.biografia-content h2 {
+  color: var(--color2);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--color2) 0%, var(--white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.biografia-text {
+  color: var(--white);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  white-space: pre-line;
+  text-align: justify;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(110, 198, 255, 0.2);
+  color: var(--white);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.close-btn svg {
+  font-size: 1.5rem;
+}
+
+.close-btn:hover {
+  background: rgba(239, 83, 80, 0.3);
+  transform: rotate(90deg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 1024px) {
   .filtros-content {
     grid-template-columns: 1fr;
@@ -299,6 +441,20 @@
     padding: 2rem;
   }
 
+  .biografia-content {
+    padding: 2rem 1.5rem;
+    max-height: 90vh;
+  }
+  
+  .biografia-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .biografia-text {
+    font-size: 1rem;
+  }
+
   .autores-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 2rem;
@@ -313,6 +469,23 @@
 @media (max-width: 480px) {
   .catalog-title {
     font-size: 2rem;
+  }
+
+  .biografia-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .biografia-content h2 {
+    font-size: 1.7rem;
+  }
+  
+  .close-btn {
+    width: 35px;
+    height: 35px;
+  }
+
+  .close-btn svg {
+    font-size: 1.3rem;
   }
 
   .autores-grid {

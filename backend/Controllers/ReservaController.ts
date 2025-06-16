@@ -46,7 +46,6 @@ export class ReservaController {
                 .from('reserva')
                 .insert({
                     fec_reserva: new Date(),
-                    estado: 'pendiente',
                 })
                 .select('id_reserva')
                 .single();
@@ -65,7 +64,6 @@ export class ReservaController {
                 .from('stock')
                 .update({
                     disponibilidad: false,
-                    estado: 'reservado',
                 })
                 .eq('id_stock', id_stock);
 

@@ -12,7 +12,7 @@ import administradorRouter from '../Routes/AdministradorRouter';
 import clienteRouter from '../Routes/ClienteRouter';
 import stockRouter from '../Routes/StockRouter';  
 import signUpRouter from '../Routes/signUpRouter';
-
+import libroAutorRouter from '../Routes/LibroAutorRouter';
 
 
 
@@ -41,6 +41,7 @@ app.use('/api/auth',authRouter)
 app.use('/api/libro',libroRouter)
 app.use('/api/signup', signUpRouter);
 app.use('/api/stock', stockRouter);
+app.use('/api/LA',libroAutorRouter)
 console.log("Ruta /api/stock cargada correctamente");
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });

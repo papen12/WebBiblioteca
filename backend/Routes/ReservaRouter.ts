@@ -3,10 +3,8 @@ import { ReservaController } from "../Controllers/ReservaController";
 
 const reservaRouter = Router();
 
-reservaRouter.get("/", ReservaController.getReservas);
-reservaRouter.get("/:id", ReservaController.getReservaById);
-reservaRouter.post("/", ReservaController.createReserva);
-reservaRouter.put("/:id", ReservaController.updateReserva);
-reservaRouter.delete("/:id", ReservaController.deleteReserva);
+reservaRouter.get("/", ReservaController.getReservas); 
+reservaRouter.get("/catalogo/disponibles", ReservaController.getLibroStockDisponibles); 
+reservaRouter.post("/directa", ReservaController.crearReservaDirecta); 
 
 export default reservaRouter;

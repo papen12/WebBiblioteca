@@ -57,7 +57,6 @@ export class LibroController {
             .from("libro")
             .select("*")
             .ilike("genero", `%${genero}%`);  
-        
         if (error) throw error;
 
         if (data && data.length === 0) {

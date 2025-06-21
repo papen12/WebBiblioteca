@@ -488,3 +488,11 @@
     height: 35px;
   }
 }
+#input-imagen {
+  cursor: pointer;
+}
+
+#input-imagen:hover {
+  border-color: var(--color2);
+  background: rgba(0, 0, 0, 0.5);
+}

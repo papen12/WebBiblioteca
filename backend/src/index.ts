@@ -36,7 +36,8 @@ export const CONFIG={
   SERVER:{
     PORT:process.env.PORT || 5000,
     ALLOWED_MIME_TYPES: ['image/jpeg', 'image/png', 'image/webp'], 
-    MAX_FILE_SIZE: 5 * 1024 * 1024
+    MAX_FILE_SIZE: 5 * 1024 * 1024,
+     UPLOAD_DIR: process.env.UPLOAD_DIR || './uploads/book-covers'
   }
 }
 

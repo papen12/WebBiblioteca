@@ -4,11 +4,11 @@ import LibroCard from '../cardLibro/LibroCard';
 import { LibroService } from '../../services/LibroService';
 import type { Libro } from '../../../../backend/Models/Libro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faBook, 
-  faRotateRight, 
-  faExclamationTriangle, 
-  faSearch, 
+import {
+  faBook,
+  faRotateRight,
+  faExclamationTriangle,
+  faSearch,
   faFolder,
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
@@ -117,6 +117,50 @@ const LibroCatalogo: FC = () => {
     }, 300);
   };
 
+  const handleImagenChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('apikey', 'K81703075988957');
+    formData.append('language', 'spa');
+    formData.append('isOverlayRequired', 'false');
+    formData.append('file', file);
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch('https://api.ocr.space/parse/image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      const parsedText = data?.ParsedResults?.[0]?.ParsedText;
+
+      if (!parsedText) {
+        setError('No se pudo extraer texto de la imagen');
+        return;
+      }
+
+     const tituloExtraido = parsedText
+  .split('\n')
+  .map((line: string) => line.trim())
+  .filter((line: string) => line.length > 0)[0];
+      console.log(tituloExtraido)
+      if (tituloExtraido) {
+        setFiltroTitulo(tituloExtraido);
+        setFiltroGenero('');
+      } else {
+        setError('Texto ilegible en la imagen');
+      }
+    } catch (err) {
+      setError('Error al procesar la imagen');
+    } finally {
+      setLoading(false);
+    }
+  };
   if (loading) {
     return (
       <div className="libro-catalogo-container">
@@ -131,12 +175,12 @@ const LibroCatalogo: FC = () => {
   return (
     <div className="libro-catalogo-container">
       {libroSeleccionado && (
-        <div 
+        <div
           className={`sinopsis-modal ${isClosing ? 'closing' : ''}`}
           onClick={handleCloseSinopsis}
         >
-          <div 
-            className="sinopsis-content" 
+          <div
+            className="sinopsis-content"
             onClick={(e) => e.stopPropagation()}
           >
             <button className="close-btn" onClick={handleCloseSinopsis}>
@@ -213,6 +257,22 @@ const LibroCatalogo: FC = () => {
             </span>
             Limpiar
           </button>
+
+          <div className="filtro-group">
+            <label htmlFor="input-imagen">
+              <span className="label-icon">
+                <FontAwesomeIcon icon={faSearch} />
+              </span>
+              Subir portada (OCR)
+            </label>
+            <input
+              id="input-imagen"
+              type="file"
+              accept="image/*"
+              onChange={handleImagenChange}
+              className="input-field"
+            />
+          </div>
         </div>
       </div>
 
@@ -237,8 +297,8 @@ const LibroCatalogo: FC = () => {
         <div className="libros-grid">
           {libros.length > 0 ? (
             libros.map((libro) => (
-              <div 
-                key={libro.idLibro} 
+              <div
+                key={libro.idLibro}
                 onClick={() => handleCardClick(libro)}
                 className="libro-card-wrapper"
               >

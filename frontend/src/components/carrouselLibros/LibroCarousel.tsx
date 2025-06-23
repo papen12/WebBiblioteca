@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { LibroService } from '../../services/LibroService';
 import type { Libro } from '../../../../backend/Models/Libro';
 import './LibroCarousel.css';
-
+import logazo from '../../assets/logazo.png'
 const LibroCarousel: React.FC = () => {
   const [libros, setLibros] = useState<Libro[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,7 +49,7 @@ const LibroCarousel: React.FC = () => {
           <div key={libro.idLibro} className="libro-card">
             <div className="portada-container">
               <img 
-                src={libro.portada || '/default-book-cover.jpg'} 
+                src={libro.portada || logazo} 
                 alt={`Portada de ${libro.titulo}`}
                 className="portada-img"
                 onError={(e) => {

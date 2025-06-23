@@ -29,7 +29,7 @@ export class ReservaService {
         }
     }
 
-    static async crearReservaDirecta(idLibro: number, ciCliente: string): Promise<{
+    static async crearReservaDirecta(idLibro: number, ciCliente: string,fechaInicio:Date,fechaLimite:Date): Promise<{
         success: boolean;
         message: string;
         data: {
@@ -42,9 +42,12 @@ export class ReservaService {
             const response = await fetchApi("/reserva/directa", {
                 method: "POST",
                 body: JSON.stringify({
-                    id_libro: idLibro,
-                    ci_cliente: ciCliente
-                })
+                id_libro: idLibro,
+                ci_cliente: ciCliente,
+                fec_reserva: fechaInicio,  
+                fec_limite: fechaLimite,
+                fecReserva:fechaInicio    
+})
             });
             
             return {

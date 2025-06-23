@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Libro } from '../../../../backend/Models/Libro';
 import './LibroCard.css';
-
+import logazo from './../../assets/logazo.png'
 interface LibroCardProps {
   libro: Libro;
 }
@@ -11,8 +11,8 @@ const LibroCard: React.FC<LibroCardProps> = ({ libro }) => {
     <div className="libro-card">
       <div className="portada-container">
         <img 
-          src={libro.portada || '/default-book-cover.jpg'} 
-          alt={`Portada de ${libro.titulo}`}
+          src={libro.portada || logazo} 
+          alt="Portada no encontrada"
           className="portada-img"
           onError={(e) => {
             const target = e.target as HTMLImageElement;

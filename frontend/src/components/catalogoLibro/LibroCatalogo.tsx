@@ -263,7 +263,7 @@ const LibroCatalogo: FC = () => {
               <span className="label-icon">
                 <FontAwesomeIcon icon={faSearch} />
               </span>
-              Subir portada (OCR)
+              Buscar Por Portada
             </label>
             <input
               id="input-imagen"

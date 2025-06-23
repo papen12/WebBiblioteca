@@ -46,6 +46,8 @@ export class ReservaController {
                 .from('reserva')
                 .insert({
                     fec_reserva: new Date(),
+                    fec_prestamo:new Date(),
+                    fec_limite:new Date()
                 })
                 .select('id_reserva')
                 .single();

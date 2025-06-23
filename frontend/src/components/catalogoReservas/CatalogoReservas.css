@@ -427,3 +427,192 @@
     font-size: 0.85rem;
   }
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--color3) 0%, var(--black) 100%);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  padding: 2.5rem;
+  box-shadow: 0 12px 40px rgba(110, 198, 255, 0.3);
+  border: 1px solid rgba(110, 198, 255, 0.2);
+  animation: slideUp 0.4s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modal-header h3 {
+  color: var(--white);
+  font-size: 1.8rem;
+  margin: 0;
+  background: linear-gradient(135deg, var(--color2) 0%, var(--white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: var(--color2);
+  transform: rotate(90deg);
+}
+
+/* DatePicker Custom Styles */
+.react-datepicker {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  background: var(--color3) !important;
+  border: 1px solid rgba(110, 198, 255, 0.3) !important;
+  border-radius: 12px !important;
+}
+
+.react-datepicker__header {
+  background: linear-gradient(135deg, var(--color1) 0%, var(--color3) 100%) !important;
+  border-bottom: 1px solid rgba(110, 198, 255, 0.2) !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: var(--white) !important;
+}
+
+.react-datepicker__day {
+  color: var(--white) !important;
+}
+
+.react-datepicker__day--selected {
+  background: linear-gradient(135deg, var(--color1) 0%, var(--color2) 100%) !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: var(--color2) !important;
+}
+
+/* Input Fields */
+.fecha-input-group {
+  margin-bottom: 1.8rem;
+}
+
+.fecha-input-group label {
+  display: block;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100% !important;
+}
+
+.react-datepicker__input-container input {
+  width: 100% !important;
+  padding: 14px 18px !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 2px solid rgba(110, 198, 255, 0.3) !important;
+  border-radius: 12px !important;
+  color: var(--white) !important;
+  font-size: 16px !important;
+}
+
+.react-datepicker__input-container input:focus {
+  outline: none !important;
+  border-color: var(--color2) !important;
+  box-shadow: 0 0 0 4px rgba(110, 198, 255, 0.2) !important;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.cancel-btn {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, var(--color1) 0%, var(--color2) 100%);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-btn:disabled {
+  background: rgba(255, 255, 255, 0.1) !important;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 1.5rem;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .modal-actions {
+    gap: 1rem;
+  }
+}

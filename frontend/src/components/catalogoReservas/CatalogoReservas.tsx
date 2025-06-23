@@ -4,17 +4,20 @@ import LibroCard from '../cardLibro/LibroCard';
 import { ReservaService } from '../../services/ReservaService';
 import type { Libro } from '../../../../backend/Models/Libro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faSearch, 
-  faFolder, 
-  faSyncAlt, 
-  faExclamationTriangle, 
-  faCheck, 
-  faBook, 
+import {
+  faSearch,
+  faFolder,
+  faSyncAlt,
+  faExclamationTriangle,
+  faCheck,
+  faBook,
   faSpinner,
   faCalendarAlt,
-  faBookBookmark
+  faBookBookmark,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './CatalogoReservas.css';
 
 interface ReservaCatalogoProps {
@@ -22,6 +25,7 @@ interface ReservaCatalogoProps {
 }
 
 const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
+  const [todosLosLibros, setTodosLosLibros] = useState<Libro[]>([]);
   const [librosDisponibles, setLibrosDisponibles] = useState<Libro[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,17 +33,19 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
   const [filtroTitulo, setFiltroTitulo] = useState<string>('');
   const [filtroGenero, setFiltroGenero] = useState<string>('');
   const [generosDisponibles, setGenerosDisponibles] = useState<string[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedLibroId, setSelectedLibroId] = useState<number | null>(null);
+  const [fechaLimite, setFechaLimite] = useState<Date | null>(null);
 
   useEffect(() => {
     const cargarLibrosDisponibles = async () => {
       try {
         setLoading(true);
         const libros = await ReservaService.getLibrosDisponibles();
+        setTodosLosLibros(libros);
         setLibrosDisponibles(libros);
-        
         const generos = [...new Set(libros.map(libro => libro.genero))];
         setGenerosDisponibles(generos);
-        
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error al cargar libros disponibles');
@@ -52,32 +58,22 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
   }, []);
 
   useEffect(() => {
-    const filtrarLibros = () => {
+    const timer = setTimeout(() => {
       try {
-        let librosFiltrados = [...librosDisponibles];
-        
+        let librosFiltrados = [...todosLosLibros];
+
         if (filtroTitulo) {
           librosFiltrados = librosFiltrados.filter(libro =>
             libro.titulo.toLowerCase().includes(filtroTitulo.toLowerCase())
           );
         }
-        
-        if (filtroGenero) {
-          librosFiltrados = librosFiltrados.filter(libro =>
-            libro.genero === filtroGenero
-          );
-        }
-        
-        return librosFiltrados;
-      } catch (err) {
-        throw err;
-      }
-    };
 
-    const timer = setTimeout(() => {
-      try {
-        const librosFiltrados = filtrarLibros();
+        if (filtroGenero) {
+          librosFiltrados = librosFiltrados.filter(libro => libro.genero === filtroGenero);
+        }
+
         setLibrosDisponibles(librosFiltrados);
+
         if (librosFiltrados.length === 0 && (filtroTitulo || filtroGenero)) {
           setError('No se encontraron libros con los filtros aplicados');
         } else {
@@ -89,20 +85,28 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [filtroTitulo, filtroGenero, librosDisponibles]);
+  }, [filtroTitulo, filtroGenero, todosLosLibros]);
 
-  const handleReservarLibro = async (idLibro: number) => {
+  const handleReservarLibro = async (idLibro: number, fechaInicio: Date, fechaLimite: Date) => {
     try {
       setLoading(true);
       setError(null);
       setSuccessMessage(null);
-      
-      const resultado = await ReservaService.crearReservaDirecta(idLibro, ciCliente);
-      
+
+      const resultado = await ReservaService.crearReservaDirecta(
+        idLibro,
+        ciCliente,
+        fechaInicio,
+        fechaLimite
+      );
+
       if (resultado.success) {
         setSuccessMessage(`Reserva #${resultado.data.idReserva} creada exitosamente`);
         const librosActualizados = await ReservaService.getLibrosDisponibles();
+        setTodosLosLibros(librosActualizados);
         setLibrosDisponibles(librosActualizados);
+        const generos = [...new Set(librosActualizados.map(libro => libro.genero))];
+        setGenerosDisponibles(generos);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear la reserva');
@@ -114,10 +118,87 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
   const handleResetFiltros = () => {
     setFiltroTitulo('');
     setFiltroGenero('');
+    setLibrosDisponibles(todosLosLibros);
     setError(null);
   };
 
-  if (loading) {
+  const ModalReserva = () => {
+    if (!showModal) return null;
+
+    const fechaActual = new Date();
+    const minFechaLimite = new Date();
+    minFechaLimite.setDate(fechaActual.getDate() + 1);
+
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h3>Confirmar Reserva</h3>
+            <button onClick={() => {
+              setShowModal(false);
+              setFechaLimite(null);
+            }} className="close-btn">
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          </div>
+          
+          <div className="fecha-input-group">
+            <label>Fecha de reserva:</label>
+            <DatePicker
+              selected={fechaActual}
+              onChange={() => {}}
+              disabled
+              className="input-field date-picker-input"
+              dateFormat="dd/MM/yyyy"
+            />
+          </div>
+          
+          <div className="fecha-input-group">
+            <label>Fecha límite de devolución:</label>
+            <DatePicker
+              selected={fechaLimite}
+              onChange={(date: Date) => setFechaLimite(date)}
+              minDate={minFechaLimite}
+              className="input-field date-picker-input"
+              placeholderText="Selecciona una fecha"
+              dateFormat="dd/MM/yyyy"
+              required
+            />
+          </div>
+          
+          <div className="modal-actions">
+            <button
+              onClick={() => {
+                setShowModal(false);
+                setFechaLimite(null);
+              }}
+              className="cancel-btn"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={async () => {
+                if (!fechaLimite || !selectedLibroId) return;
+                await handleReservarLibro(
+                  selectedLibroId,
+                  fechaActual,
+                  fechaLimite
+                );
+                setShowModal(false);
+                setFechaLimite(null);
+              }}
+              className="confirm-btn"
+              disabled={!fechaLimite}
+            >
+              Confirmar Reserva
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (loading && !showModal) {
     return (
       <div className="reserva-catalogo-container">
         <div className="loading">
@@ -213,25 +294,20 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
                 {librosDisponibles.length} {librosDisponibles.length === 1 ? 'libro disponible' : 'libros disponibles'}
               </h3>
             </div>
-            
+
             <div className="libros-grid">
               {librosDisponibles.map((libro) => (
                 <div key={libro.idLibro} className="libro-card-container">
                   <LibroCard libro={libro} />
                   <button
                     className="reservar-btn"
-                    onClick={() => handleReservarLibro(libro.idLibro)}
+                    onClick={() => {
+                      setSelectedLibroId(libro.idLibro);
+                      setShowModal(true);
+                    }}
                     disabled={loading}
                   >
-                    {loading ? (
-                      <>
-                        <FontAwesomeIcon icon={faSpinner} spin /> Reservando...
-                      </>
-                    ) : (
-                      <>
-                        <FontAwesomeIcon icon={faCalendarAlt} /> Reservar Libro
-                      </>
-                    )}
+                    <FontAwesomeIcon icon={faCalendarAlt} /> Reservar Libro
                   </button>
                 </div>
               ))}
@@ -245,6 +321,8 @@ const ReservaCatalogo: FC<ReservaCatalogoProps> = ({ ciCliente }) => {
           </div>
         )}
       </div>
+
+      <ModalReserva />
     </div>
   );
 };

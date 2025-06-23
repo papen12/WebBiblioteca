@@ -13,6 +13,7 @@ import clienteRouter from '../Routes/ClienteRouter';
 import stockRouter from '../Routes/StockRouter';  
 import signUpRouter from '../Routes/signUpRouter';
 import libroAutorRouter from '../Routes/LibroAutorRouter';
+import botrouter from '../Routes/botRouter';
 
 
 
@@ -29,18 +30,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
-export const CONFIG={
-  n8n:{
-    WEBHOOK_URL:process.env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook-test/imageReader'
-  },
-  SERVER:{
-    PORT:process.env.PORT || 5000,
-    ALLOWED_MIME_TYPES: ['image/jpeg', 'image/png', 'image/webp'], 
-    MAX_FILE_SIZE: 5 * 1024 * 1024,
-     UPLOAD_DIR: process.env.UPLOAD_DIR || './uploads/book-covers'
-  }
-}
 
+
+app.use('/api/portada',botrouter)
 app.use('/api/persona', personaRouter);
 app.use('/api/multa', multaRouter);
 app.use('/api/reserva', reservaRouter);
@@ -52,7 +44,6 @@ app.use('/api/libro',libroRouter)
 app.use('/api/signup', signUpRouter);
 app.use('/api/stock', stockRouter);
 app.use('/api/LA',libroAutorRouter)
-console.log("Ruta /api/stock cargada correctamente");
 app.get('/api', (_req, res) => {
   res.json({ message: "Hola desde Express!" });
 });

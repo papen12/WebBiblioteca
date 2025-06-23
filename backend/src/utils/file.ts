@@ -7,3 +7,11 @@ export const existeDir = async (direccion:string)=>{
         await fs.mkdir(direccion,{recursive:true})
     }
 }
+
+export const deleteFile=async(direccion:string)=>{
+    try{
+        await fs.unlink(direccion)
+    }catch(error){
+        console.error(error)
+    }
+}

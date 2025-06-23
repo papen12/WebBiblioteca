@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 import { existeDir } from "../src/utils/file";
-import { CONFIG } from "../src";
+import { CONFIG } from "../src/utils/n8n";
 
 
 existeDir(CONFIG.SERVER.UPLOAD_DIR)

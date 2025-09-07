@@ -1,63 +1,73 @@
-import { Request, Response } from 'express';
-import { supabase } from '../src/Config/supabase';
-import { Cliente } from '../Models/Cliente';
-import { generateToken } from '../src/utils/jwt';
+import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import { generateToken } from "../src/utils/jwt";
+import { supabase } from "../src/Config/supabase";
 
+export class AuthController {
+  static async register(req: Request, res: Response) {
+    try {
+      const { usuario, password, email, nombre, apellido, cl_usuario, id_rol } = req.body;
+      const { data: existe, error: errorExiste } = await supabase
+        .from("usuario")
+        .select("*")
+        .or(`usuario.eq.${usuario},email.eq.${email},cl_usuario.eq.${cl_usuario}`)
+        .single();
 
-export const login = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { usuario, password } = req.body;
+      if (existe) return res.status(400).json({ error: "Usuario ya existe" });
+      if (errorExiste && errorExiste.code !== "PGRST116") {
+        return res.status(500).json({ error: "Error al verificar usuario" });
+      }
+      const hashed = await bcrypt.hash(password, 10);
 
-    if (!usuario || !password) {
-      res.status(400).json({ error: 'Usuario y contraseña requeridos' });
-      return;
+      const { data, error } = await supabase
+        .from("usuario")
+        .insert([
+          {
+            usuario,
+            password: hashed,
+            email,
+            nombre,
+            apellido,
+            cl_usuario,
+            id_rol,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) return res.status(500).json({ error: error.message });
+
+      res.status(201).json({ message: "Usuario registrado", usuario: data });
+    } catch (error) {
+      res.status(500).json({ error: "Error en el registro" });
     }
-
-    const { data, error } = await supabase
-      .from('cliente')
-      .select('*')
-      .eq('usuario', usuario)
-      .single();
-
-    if (error || !data) {
-      res.status(401).json({ error: 'Usuario no encontrado' });
-      return;
-    }
-
-    const cliente: Cliente = {
-      ci_cliente: data.ci_cliente,
-      idPersona: data.id_persona,
-      usuario: data.usuario,
-      password: data.password,
-    };
-
-    const passwordValido = password === cliente.password;
-
-    if (!passwordValido) {
-      res.status(401).json({ error: 'Contraseña incorrecta' });
-      return;
-    }
-
-    const token = generateToken({
-      ci_cliente: cliente.ci_cliente,
-      usuario: cliente.usuario,
-    });
-
-    res.status(200).json({ token });
-  } catch (err) {
-    res.status(500).json({ error: 'Error en el servidor' });
   }
-};
 
-export const perfil = async (req: Request, res: Response): Promise<void> => {
-  try{
+  static async login(req: Request, res: Response) {
+    try {
+      const { usuario, password } = req.body;
+
+      const { data: user, error } = await supabase
+        .from("usuario")
+        .select("*")
+        .eq("usuario", usuario)
+        .single();
+
+      if (error || !user) return res.status(400).json({ error: "Credenciales inválidas" });
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return res.status(400).json({ error: "Credenciales inválidas" });
+
+      const token = generateToken({ id: user.id_usuario, usuario: user.usuario, rol: user.id_rol });
+
+      res.json({ token, user: { id: user.id_usuario, usuario: user.usuario, rol: user.id_rol } });
+    } catch (error) {
+      res.status(500).json({ error: "Error en el login" });
+    }
+  }
+
+  static async profile(req: Request, res: Response) {
     const user = (req as any).user;
-  res.status(200).json({
-    mensaje: 'Ruta protegida',
-    cliente: user,
-  });
-  }catch(e){
-    res.status(500).json({error:"error en el servidor"})
+    res.json({ message: "Perfil de usuario autenticado", user });
   }
-  
-};
+}

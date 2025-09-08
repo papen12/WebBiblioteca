@@ -10,8 +10,6 @@ export interface Usuario {
     direccion: string;
     genero: string;
     fecha_nac: Date;
-    nacionalidad: string;
-    biografia: string;
     foto: string;
     id_rol: number;
     fecha_creacion: Date;

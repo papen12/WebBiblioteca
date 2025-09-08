@@ -1,10 +1,12 @@
-import { Router } from 'express';
-import { login, perfil } from '../Controllers/AuthController';
-import { authMiddleware } from '../Middlewares/authMiddleWare';
+import { Router } from "express";
+import { AuthController } from "../Controllers/AuthController";
 
-const loginRouter = Router();
+const AuthRouter = Router();
 
-loginRouter.post('/login', login);
-loginRouter.get('/perfil', authMiddleware, perfil);
+AuthRouter.post("/register", AuthController.register);
+AuthRouter.post("/login", AuthController.login);
+AuthRouter.get("/profile", AuthController.profile);
+AuthRouter.get("/test", (_req, res):any => res.json({ message: "Router OK" }));
 
-export default loginRouter;
+
+export default AuthRouter;

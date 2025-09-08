@@ -1,49 +1,71 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import bcrypt from "bcrypt";
 import { generateToken } from "../src/utils/jwt";
 import { supabase } from "../src/Config/supabase";
 
 export class AuthController {
-  static async register(req: Request, res: Response) {
+  static register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { usuario, password, email, nombre, apellido, cl_usuario, id_rol } = req.body;
-      const { data: existe, error: errorExiste } = await supabase
-        .from("usuario")
-        .select("*")
-        .or(`usuario.eq.${usuario},email.eq.${email},cl_usuario.eq.${cl_usuario}`)
-        .single();
+      const {
+        usuario,
+        password,
+        email,
+        nombre,
+        apellido,
+        cl_usuario,
+        telefono,
+        direccion,
+        genero,
+        fecha_nac,
+        foto,
+      } = req.body;
+      if (!usuario || !password || !email || !nombre || !apellido || !cl_usuario) {
+        res.status(400).json({ error: "Faltan campos obligatorios" });
+        return;
+      }
+      const { data: existeData, error: errorExiste } = await supabase.rpc("existe_usuario", {
+        p_usuario: usuario,
+        p_email: email,
+        p_cl_usuario: cl_usuario
+      });
 
-      if (existe) return res.status(400).json({ error: "Usuario ya existe" });
-      if (errorExiste && errorExiste.code !== "PGRST116") {
-        return res.status(500).json({ error: "Error al verificar usuario" });
+      if (errorExiste) {
+        res.status(500).json({ error: "Error al verificar existencia de usuario" });
+        return;
+      }
+
+      if (existeData?.[0]?.existe) {
+        res.status(400).json({ error: "Usuario ya existe", usuario: existeData[0] });
+        return;
       }
       const hashed = await bcrypt.hash(password, 10);
+      const { data, error } = await supabase.rpc("registrar_usuario", {
+        p_cl_usuario: cl_usuario,
+        p_usuario: usuario,
+        p_password: hashed,
+        p_nombre: nombre,
+        p_apellido: apellido,
+        p_email: email,
+        p_telefono: telefono ?? null,
+        p_direccion: direccion ?? null,
+        p_genero: genero ?? null,
+        p_fecha_nac: fecha_nac ?? null,
+        p_foto: foto ?? null
+      });
 
-      const { data, error } = await supabase
-        .from("usuario")
-        .insert([
-          {
-            usuario,
-            password: hashed,
-            email,
-            nombre,
-            apellido,
-            cl_usuario,
-            id_rol,
-          },
-        ])
-        .select()
-        .single();
-
-      if (error) return res.status(500).json({ error: error.message });
+      if (error) {
+        res.status(500).json({ error: error.message });
+        return;
+      }
 
       res.status(201).json({ message: "Usuario registrado", usuario: data });
+
     } catch (error) {
       res.status(500).json({ error: "Error en el registro" });
     }
-  }
+  };
 
-  static async login(req: Request, res: Response) {
+  static login: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
       const { usuario, password } = req.body;
 
@@ -53,10 +75,16 @@ export class AuthController {
         .eq("usuario", usuario)
         .single();
 
-      if (error || !user) return res.status(400).json({ error: "Credenciales inválidas" });
+      if (error || !user) {
+        res.status(400).json({ error: "Credenciales inválidas" });
+        return;
+      }
 
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(400).json({ error: "Credenciales inválidas" });
+      if (!isMatch) {
+        res.status(400).json({ error: "Credenciales inválidas" });
+        return;
+      }
 
       const token = generateToken({ id: user.id_usuario, usuario: user.usuario, rol: user.id_rol });
 
@@ -64,10 +92,10 @@ export class AuthController {
     } catch (error) {
       res.status(500).json({ error: "Error en el login" });
     }
-  }
+  };
 
-  static async profile(req: Request, res: Response) {
+  static profile: RequestHandler = (req: Request, res: Response): void => {
     const user = (req as any).user;
     res.json({ message: "Perfil de usuario autenticado", user });
-  }
+  };
 }
